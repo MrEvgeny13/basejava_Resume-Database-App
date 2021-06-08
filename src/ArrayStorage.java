@@ -3,29 +3,24 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private int size = 0;
 
     void clear() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                break;
-            }
-            else if (storage[i] instanceof Resume) {
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
                 storage[i] = null;
             }
+            size = 0;
         }
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
-            }
-        }
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 return storage[i];
             }
@@ -35,60 +30,43 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         // удаляем запрашиваемый элемент
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 storage[i] = null;
                 break;
             }
         }
+        size--;
 
-        // ликвидируем образовавшийся null между резюме
-        int k = 1;                                   // на сколько позиций сдвигаем элементы-резюме влево
-        Resume[] storage_tmp = new Resume[k];
-        for (int i = 0; i < storage.length; i++) {
-            if (i < k) {
-                storage_tmp[i] = storage[i];
-                continue;
+        // определяем индекс, где образовался null между резюме
+        int indexOfNullResume = 0;
+        for (int i = 0; i < size + 1; i++) {
+            if (storage[i] == null) {
+                indexOfNullResume = i;
+                break;
             }
-            storage[i - k] = storage[i];
         }
-        System.arraycopy(storage_tmp, 0, storage, storage.length - k, k);
+
+        // ликвидируем null между резюме
+        for (int i = indexOfNullResume + 1; i < size; i++) {
+            storage[i - 1] = storage[i];
+            storage[i] = null;
+        }
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        // узнаем количество реальных резюме в массиве
-        int count = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] instanceof Resume) {
-                count++;
-            }
-            else
-                break;
-        }
-
-        if (count == 0 ) {          // если реальных резюме нет, просто возвращаем нулевой массив
-            return new Resume[0];
-        }
-        else {
-            Resume[] real_storage = new Resume[count];
-            System.arraycopy(storage, 0, real_storage, 0, count);
+        if (size > 0) {
+            Resume[] real_storage = new Resume[size];
+            System.arraycopy(storage, 0, real_storage, 0, size);
             return real_storage;
         }
+        return null;
     }
 
     int size() {
-        int count = 0;
-
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] instanceof Resume) {
-                count++;
-            }
-            else
-                break;
-        }
-        return count;
+        return size;
     }
 }
