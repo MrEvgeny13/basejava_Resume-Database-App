@@ -16,6 +16,15 @@ public class ArrayStorage {
         size = 0;
     }
 
+    public void update(Resume r) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(r.toString())) {
+                storage[i] = r;
+                break;
+            }
+        }
+    }
+
     public void save(Resume r) {
         storage[size] = r;
         size++;
