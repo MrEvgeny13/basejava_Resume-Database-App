@@ -1,3 +1,5 @@
+package com.urise.webapp.storage;
+
 /**
  * Array based storage for Resumes
  */
@@ -27,18 +29,18 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        // удаляем запрашиваемый элемент
+        // deleting the requested element
         int indexOfNullResume = 0;
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 storage[i] = null;
-                indexOfNullResume = i;     // порядковый номер, где образовался null
+                indexOfNullResume = i;     // the sequence number where null was formed
                 break;
             }
         }
         size--;
 
-        // ликвидируем null между резюме
+        // eliminating null between resumes
         System.arraycopy(storage, indexOfNullResume + 1, storage, indexOfNullResume, storage.length - indexOfNullResume - 1);
     }
 
