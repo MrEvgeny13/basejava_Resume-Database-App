@@ -1,10 +1,10 @@
-package com.urise.webapp;
+package com.evgeny13.webapp;
 
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
+import com.evgeny13.webapp.model.Resume;
+import com.evgeny13.webapp.storage.ArrayStorage;
 
 /**
- * Test for your com.urise.webapp.storage.ArrayStorage implementation
+ * Test for your com.evgeny13.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
     static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();

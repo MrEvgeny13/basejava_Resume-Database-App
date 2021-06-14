@@ -1,4 +1,4 @@
-package com.urise.webapp.model;
+package com.evgeny13.webapp.model;
 
 /**
  * Initial resume class
@@ -6,7 +6,7 @@ package com.urise.webapp.model;
 public class Resume {
 
     // Unique identifier
-    String uuid;
+    public String uuid;
 
     @Override
     public String toString() {

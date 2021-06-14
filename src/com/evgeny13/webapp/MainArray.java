@@ -1,14 +1,14 @@
-package com.urise.webapp;
+package com.evgeny13.webapp;
 
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
+import com.evgeny13.webapp.model.Resume;
+import com.evgeny13.webapp.storage.ArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for com.urise.webapp.storage.ArrayStorage implementation
+ * Interactive test for com.evgeny13.webapp.storage.ArrayStorage implementation
  * (just run, no need to understand)
  */
 public class MainArray {
