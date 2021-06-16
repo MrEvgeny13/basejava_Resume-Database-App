@@ -20,12 +20,25 @@ public class ArrayStorage {
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(r.toString())) {
                 storage[i] = r;
-                break;
+                return;
             }
         }
+        System.out.println("Update failed: resume with uuid" + r.toString() + " was not found in the storage");
     }
 
     public void save(Resume r) {
+        if (size == 10000) {
+            System.out.println("Saving failed: no storage space left");
+            return;
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(r.toString())) {
+                System.out.println("Saving failed: resume with uuid" + r.toString() + " is already in the storage");
+                return;
+            }
+        }
+
         storage[size] = r;
         size++;
     }
@@ -36,12 +49,15 @@ public class ArrayStorage {
                 return storage[i];
             }
         }
+        System.out.println("Requested resume with uuid" + uuid + " was not found in the storage");
         return null;
     }
 
     public void delete(String uuid) {
-        // deleting the requested element
-        int indexOfNullResume = 0;
+        /**
+         * Deleting the requested element
+         */
+        int indexOfNullResume = 10000;     // the original value must be different from any index in storage
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 storage[i] = null;
@@ -49,9 +65,21 @@ public class ArrayStorage {
                 break;
             }
         }
+
+        /**
+         * If indexOfNullResume has retained the original value (i.e. there's no requested uuid,
+         * and the deletion of the element with the assignment of the deleted index wasn't performed)
+         */
+        if (indexOfNullResume == 10000) {
+            System.out.println("Deletion failed: requested resume with uuid" + uuid + " was not found in the storage");
+            return;
+        }
+
         size--;
 
-        // eliminating null between resumes
+        /**
+         * Eliminating null between resumes
+         */
         System.arraycopy(storage, indexOfNullResume + 1, storage, indexOfNullResume, storage.length - indexOfNullResume - 1);
     }
 
