@@ -2,6 +2,8 @@ package com.evgeny13.webapp.storage;
 
 import com.evgeny13.webapp.model.Resume;
 
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -22,9 +24,7 @@ public class ArrayStorage {
     }
 
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -76,8 +76,7 @@ public class ArrayStorage {
             size--;
             // eliminating null between resumes
             System.arraycopy(storage, uuidMatchIndex + 1, storage, uuidMatchIndex, storage.length - uuidMatchIndex - 1);
-        }
-        else {
+        } else {
             System.out.println("Deletion failed: requested resume with uuid" + uuid + " was not found in the storage");
         }
     }
