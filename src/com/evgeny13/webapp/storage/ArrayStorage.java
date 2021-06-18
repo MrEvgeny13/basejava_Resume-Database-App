@@ -8,6 +8,18 @@ import com.evgeny13.webapp.model.Resume;
 public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size = 0;
+    private int uuidMatchIndex;   // the index of the resume that matches the entered uuid
+
+    private void comparingStorageWithUuid(String uuid) {
+        uuidMatchIndex = -1;      // starting value
+
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(uuid)) {
+                uuidMatchIndex = i;
+                break;
+            }
+        }
+    }
 
     public void clear() {
         for (int i = 0; i < size; i++) {
@@ -17,13 +29,14 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(r.toString())) {
-                storage[i] = r;
-                return;
-            }
+        comparingStorageWithUuid(r.toString());
+
+        if (uuidMatchIndex != -1) {
+            storage[uuidMatchIndex] = r;
+            return;
         }
-        System.out.println("Update failed: resume with uuid" + r.toString() + " was not found in the storage");
+
+        System.out.println("Update failed: resume with uuid" + r + " was not found in the storage");
     }
 
     public void save(Resume r) {
@@ -32,11 +45,11 @@ public class ArrayStorage {
             return;
         }
 
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(r.toString())) {
-                System.out.println("Saving failed: resume with uuid" + r.toString() + " is already in the storage");
-                return;
-            }
+        comparingStorageWithUuid(r.toString());
+
+        if (uuidMatchIndex != -1) {
+            System.out.println("Saving failed: resume with uuid" + r + " is already in the storage");
+            return;
         }
 
         storage[size] = r;
@@ -44,47 +57,33 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                return storage[i];
-            }
+        comparingStorageWithUuid(uuid);
+
+        if (uuidMatchIndex != -1) {
+            return storage[uuidMatchIndex];
         }
+
         System.out.println("Requested resume with uuid" + uuid + " was not found in the storage");
         return null;
     }
 
     public void delete(String uuid) {
-        /**
-         * Deleting the requested element
-         */
-        int indexOfNullResume = 10000;     // the original value must be different from any index in storage
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                storage[i] = null;
-                indexOfNullResume = i;     // the sequence number where null was formed
-                break;
-            }
-        }
+        comparingStorageWithUuid(uuid);
 
-        /**
-         * If indexOfNullResume has retained the original value (i.e. there's no requested uuid,
-         * and the deletion of the element with the assignment of the deleted index wasn't performed)
-         */
-        if (indexOfNullResume == 10000) {
+        if (uuidMatchIndex != -1) {
+            // deleting the requested resume
+            storage[uuidMatchIndex] = null;
+            size--;
+            // eliminating null between resumes
+            System.arraycopy(storage, uuidMatchIndex + 1, storage, uuidMatchIndex, storage.length - uuidMatchIndex - 1);
+        }
+        else {
             System.out.println("Deletion failed: requested resume with uuid" + uuid + " was not found in the storage");
-            return;
         }
-
-        size--;
-
-        /**
-         * Eliminating null between resumes
-         */
-        System.arraycopy(storage, indexOfNullResume + 1, storage, indexOfNullResume, storage.length - indexOfNullResume - 1);
     }
 
     /**
-     * @return array, contains only Resumes in storage (without null)
+     * @return array, contains only resumes in storage (without null)
      */
     public Resume[] getAll() {
         Resume[] allResume = new Resume[size];
