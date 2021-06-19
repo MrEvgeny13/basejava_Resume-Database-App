@@ -52,8 +52,12 @@ public class MainArray {
                     printAll();
                     break;
                 case "get":
-                    System.out.println(ARRAY_STORAGE.get(uuid));
-                    break;
+                    try {
+                        System.out.println(ARRAY_STORAGE.get(uuid).getIndex());
+                        break;
+                    } catch (NullPointerException e) {
+                        break;
+                    }
                 case "clear":
                     ARRAY_STORAGE.clear();
                     printAll();
@@ -74,7 +78,7 @@ public class MainArray {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {
-                System.out.println(r);
+                System.out.println(r.getIndex());
             }
         }
         System.out.println("----------------------------");
