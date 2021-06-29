@@ -8,7 +8,10 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10_000];
+
+    private static final int STORAGE_LIMIT = 10_000;
+
+    private Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = 0;
     private int index;   // the index of the resume that matches the entered uuid
 
@@ -16,7 +19,7 @@ public class ArrayStorage {
         index = -1;      // starting value
 
         for (int i = 0; i < size; i++) {
-            if (storage[i].getIndex().equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 index = i;
                 break;
             }
@@ -29,14 +32,14 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        findIndex(r.getIndex());
+        findIndex(r.getUuid());
 
         if (index != -1) {
             storage[index] = r;
             return;
         }
 
-        System.out.println("Update failed: resume with uuid" + r.getIndex() + " was not found in the storage");
+        System.out.println("Update failed: resume with uuid" + r.getUuid() + " was not found in the storage");
     }
 
     public void save(Resume r) {
@@ -45,10 +48,10 @@ public class ArrayStorage {
             return;
         }
 
-        findIndex(r.getIndex());
+        findIndex(r.getUuid());
 
         if (index != -1) {
-            System.out.println("Saving failed: resume with uuid" + r.getIndex() + " is already in the storage");
+            System.out.println("Saving failed: resume with uuid" + r.getUuid() + " is already in the storage");
             return;
         }
 
@@ -92,5 +95,14 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    private int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].getUuid())) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
