@@ -3,9 +3,10 @@ package com.evgeny13.webapp.model;
 /**
  * Initial resume class
  */
-public class Resume {
+public class Resume implements Comparable<Resume> {
+
     // Unique identifier
-    public String uuid;
+    private String uuid;
 
     public String getUuid() {
         return uuid;
@@ -33,5 +34,10 @@ public class Resume {
     @Override
     public String toString() {
         return uuid;
+    }
+
+    @Override
+    public int compareTo(Resume o) {
+        return uuid.compareTo(o.uuid);
     }
 }

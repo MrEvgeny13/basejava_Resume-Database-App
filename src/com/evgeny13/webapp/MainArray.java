@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for com.evgeny13.webapp.storage.ArrayStorage implementation
- * (just run, no need to understand)
+ * Test for com.evgeny13.webapp.storage.ArrayStorage
  */
 public class MainArray {
     private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
@@ -21,7 +20,7 @@ public class MainArray {
             System.out.print("Enter one of the following commands: (list | size | save uuid | update uuid | delete uuid | get uuid | clear | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
             if (params.length < 1 || params.length > 2) {
-                System.out.println("Invalid command.");
+                System.out.println("Неверная команда.");
                 continue;
             }
             String uuid = null;
@@ -37,13 +36,13 @@ public class MainArray {
                     break;
                 case "save":
                     r = new Resume();
-                    r.uuid = uuid;
+                    r.setUuid(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
                 case "update":
                     r = new Resume();
-                    r.uuid = uuid;
+                    r.setUuid(uuid);
                     ARRAY_STORAGE.update(r);
                     printAll();
                     break;
@@ -52,12 +51,8 @@ public class MainArray {
                     printAll();
                     break;
                 case "get":
-                    try {
-                        System.out.println(ARRAY_STORAGE.get(uuid).getUuid());
-                        break;
-                    } catch (NullPointerException e) {
-                        break;
-                    }
+                    System.out.println(ARRAY_STORAGE.get(uuid));
+                    break;
                 case "clear":
                     ARRAY_STORAGE.clear();
                     printAll();
@@ -78,7 +73,7 @@ public class MainArray {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {
-                System.out.println(r.getUuid());
+                System.out.println(r);
             }
         }
         System.out.println("----------------------------");
