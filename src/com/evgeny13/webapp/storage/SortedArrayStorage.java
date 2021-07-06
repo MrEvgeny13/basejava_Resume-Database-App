@@ -18,7 +18,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
-    /*
+    /**
      * Source: https://www.geeksforgeeks.org/create-a-sorted-array-using-binary-search/
      */
     private void createSorted(Resume[] a, int n) {
