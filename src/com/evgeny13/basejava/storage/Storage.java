@@ -1,6 +1,6 @@
-package com.evgeny13.webapp.storage;
+package com.evgeny13.basejava.storage;
 
-import com.evgeny13.webapp.model.Resume;
+import com.evgeny13.basejava.model.Resume;
 
 public interface Storage {
 

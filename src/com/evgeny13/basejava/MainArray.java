@@ -1,14 +1,14 @@
-package com.evgeny13.webapp;
+package com.evgeny13.basejava;
 
-import com.evgeny13.webapp.model.Resume;
-import com.evgeny13.webapp.storage.ArrayStorage;
+import com.evgeny13.basejava.model.Resume;
+import com.evgeny13.basejava.storage.ArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Test for com.evgeny13.webapp.storage.ArrayStorage
+ * Test for com.evgeny13.basejava.storage.ArrayStorage
  */
 public class MainArray {
     private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();

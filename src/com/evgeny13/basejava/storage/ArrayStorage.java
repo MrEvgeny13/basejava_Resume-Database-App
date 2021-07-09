@@ -1,6 +1,6 @@
-package com.evgeny13.webapp.storage;
+package com.evgeny13.basejava.storage;
 
-import com.evgeny13.webapp.model.Resume;
+import com.evgeny13.basejava.model.Resume;
 
 /**
  * Array based storage for Resumes
@@ -18,12 +18,12 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void fillDeletedResume(int index) {
+    protected void fillDeletedElement(int index) {
         storage[index] = storage[size - 1];
     }
 
     @Override
-    protected void insertResume(Resume r, int index) {
+    protected void insertElement(Resume r, int index) {
         storage[size] = r;
     }
 }
