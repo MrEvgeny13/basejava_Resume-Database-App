@@ -1,5 +1,8 @@
 package com.evgeny13.basejava.storage;
 
+import com.evgeny13.basejava.exception.ExistStorageException;
+import com.evgeny13.basejava.exception.NotExistStorageException;
+import com.evgeny13.basejava.exception.StorageException;
 import com.evgeny13.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -22,7 +25,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(r.getUuid());
 
         if (index < 0) {
-            System.out.println("Resume " + r.getUuid() + " not exist");
+            throw new NotExistStorageException(r.getUuid());
         } else {
             storage[index] = r;
         }
@@ -32,9 +35,9 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(r.getUuid());
 
         if (index >= 0) {
-            System.out.println("Resume " + r.getUuid() + " already exist");
+            throw new ExistStorageException(r.getUuid());
         } else if (size == STORAGE_LIMIT) {
-            System.out.println("Storage overflow");
+            throw new StorageException("Storage overflow", r.getUuid());
         } else {
             insertElement(r, index);
             size++;
@@ -45,8 +48,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
 
         if (index < 0) {
-            System.out.println("Resume " + uuid + " not exist");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -55,7 +57,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
 
         if (index < 0) {
-            System.out.println("Resume " + uuid + " not exist");
+            throw new NotExistStorageException(uuid);
         } else {
             fillDeletedElement(index);
             storage[size - 1] = null;
