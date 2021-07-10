@@ -4,3 +4,4 @@ out
 log
 target
 *.patch
+lib
