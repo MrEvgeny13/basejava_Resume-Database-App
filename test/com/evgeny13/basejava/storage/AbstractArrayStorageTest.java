@@ -7,32 +7,33 @@ import com.evgeny13.basejava.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.evgeny13.basejava.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.assertEquals;
 
 
 public abstract class AbstractArrayStorageTest {
     private Storage storage;
 
-    public AbstractArrayStorageTest(Storage storage) {
-        this.storage = storage;
-    }
-
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";           // uuid for test Resume
 
-    private static final Resume r1 = new Resume(UUID_1);
-    private static final Resume r2 = new Resume(UUID_2);
-    private static final Resume r3 = new Resume(UUID_3);
-    private static final Resume r4 = new Resume(UUID_4);    // test Resume (for some test methods)
+    private static final Resume R_1 = new Resume(UUID_1);
+    private static final Resume R_2 = new Resume(UUID_2);
+    private static final Resume R_3 = new Resume(UUID_3);
+    private static final Resume R_4 = new Resume(UUID_4);    // test Resume (for some test methods)
+
+    protected AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
+    }
 
     @Before
     public void setUp() throws Exception {
         storage.clear();
-        storage.save(r1);
-        storage.save(r2);
-        storage.save(r3);
+        storage.save(R_1);
+        storage.save(R_2);
+        storage.save(R_3);
     }
 
     @Test
@@ -50,32 +51,32 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateWithNotExistStorageException() throws Exception {
-        storage.update(r4);
+        storage.update(R_4);
     }
 
     @Test
     public void save() throws Exception {
-        storage.save(r4);
+        storage.save(R_4);
         assertEquals(4, storage.size());
     }
 
     @Test(expected = ExistStorageException.class)
     public void saveWithExistStorageException() throws Exception {
-        storage.save(r1);
+        storage.save(R_1);
     }
 
     @Test(expected = StorageException.class)
     public void saveWithStorageException() throws Exception {
-        storage.save(r4);
+        storage.save(R_4);
 
-        for (int i = 5; i < AbstractArrayStorage.STORAGE_LIMIT + 2; i++) {
+        for (int i = 5; i < STORAGE_LIMIT + 2; i++) {
             storage.save(new Resume("uuid" + i));
         }
     }
 
     @Test
     public void get() throws Exception {
-        assertEquals(r3, storage.get("3"));
+        assertEquals(R_3, storage.get("3"));
     }
 
     @Test(expected = NotExistStorageException.class)
