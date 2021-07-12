@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import static com.evgeny13.basejava.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 
 public abstract class AbstractArrayStorageTest {
@@ -58,7 +59,12 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void save() throws Exception {
         storage.save(R_4);
+
+        // checking the correct size
         assertEquals(4, storage.size());
+
+        // checking that resume has been saved
+        assertEquals(R_4, storage.get(UUID_4));
     }
 
     @Test(expected = ExistStorageException.class)
@@ -92,7 +98,15 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void delete() throws Exception {
         storage.delete(UUID_3);
+
+        // checking the correct size
         assertEquals(2, storage.size());
+
+        // checking that resume has been deleted
+        Resume[] realResumes = storage.getAll();
+        for (int i = 0; i < realResumes.length; i++) {
+            assertNotEquals(R_3, realResumes[i]);
+        }
     }
 
     @Test(expected = NotExistStorageException.class)
