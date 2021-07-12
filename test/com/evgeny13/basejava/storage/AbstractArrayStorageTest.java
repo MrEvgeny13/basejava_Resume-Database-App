@@ -4,6 +4,7 @@ import com.evgeny13.basejava.exception.ExistStorageException;
 import com.evgeny13.basejava.exception.NotExistStorageException;
 import com.evgeny13.basejava.exception.StorageException;
 import com.evgeny13.basejava.model.Resume;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -67,16 +68,20 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = StorageException.class)
     public void saveWithStorageException() throws Exception {
-        storage.save(R_4);
-
-        for (int i = 5; i < STORAGE_LIMIT + 2; i++) {
-            storage.save(new Resume("uuid" + i));
+        try {
+            for (int i = 4; i <= STORAGE_LIMIT; i++) {
+                storage.save(new Resume("uuid" + i));
+            }
+        } catch (StorageException e) {
+            Assert.fail("Premature array overflow");
         }
+
+        storage.save(new Resume("uuid" + (STORAGE_LIMIT + 1)));
     }
 
     @Test
     public void get() throws Exception {
-        assertEquals(R_3, storage.get("3"));
+        assertEquals(R_3, storage.get(UUID_3));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -86,7 +91,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void delete() throws Exception {
-        storage.delete("3");
+        storage.delete(UUID_3);
         assertEquals(2, storage.size());
     }
 
