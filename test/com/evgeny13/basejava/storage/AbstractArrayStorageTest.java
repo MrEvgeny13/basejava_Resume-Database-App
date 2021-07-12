@@ -9,8 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.evgeny13.basejava.storage.AbstractArrayStorage.STORAGE_LIMIT;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 
 public abstract class AbstractArrayStorageTest {
@@ -92,7 +91,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void getWithNotExistStorageException() throws Exception {
-        storage.get("dummy");
+        storage.get(UUID_4);
     }
 
     @Test
@@ -111,12 +110,30 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void deleteWithNotExistStorageException() throws Exception {
-        storage.delete("dummy");
+        storage.delete(UUID_4);
     }
 
     @Test
     public void getAll() throws Exception {
-        assertEquals(3, storage.getAll().length);
+        Resume[] realResumes = storage.getAll();
+
+        int matchedResumes = 0;
+        for (int i = 0; i < realResumes.length; i++) {
+            if (realResumes[i] == R_1) {
+                matchedResumes++;
+                continue;
+            }
+            if (realResumes[i] == R_2) {
+                matchedResumes++;
+                continue;
+            }
+            if (realResumes[i] == R_3) {
+                matchedResumes++;
+                continue;
+            }
+        }
+
+        assertTrue(matchedResumes == 3);
     }
 
     @Test
