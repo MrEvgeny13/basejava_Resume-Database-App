@@ -94,18 +94,15 @@ public abstract class AbstractArrayStorageTest {
         storage.get(UUID_4);
     }
 
-    @Test
+    @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
         storage.delete(UUID_3);
 
         // checking the correct size
         assertEquals(2, storage.size());
 
-        // checking that resume has been deleted
-        Resume[] realResumes = storage.getAll();
-        for (int i = 0; i < realResumes.length; i++) {
-            assertNotEquals(R_3, realResumes[i]);
-        }
+        // checking that the deleted resume isn't in the storage
+        storage.get(UUID_3);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -116,24 +113,13 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void getAll() throws Exception {
         Resume[] realResumes = storage.getAll();
+        Resume[] initiallySavedResumes = new Resume[] {R_1, R_2, R_3};
 
-        int matchedResumes = 0;
-        for (int i = 0; i < realResumes.length; i++) {
-            if (realResumes[i] == R_1) {
-                matchedResumes++;
-                continue;
-            }
-            if (realResumes[i] == R_2) {
-                matchedResumes++;
-                continue;
-            }
-            if (realResumes[i] == R_3) {
-                matchedResumes++;
-                continue;
-            }
-        }
+        // checking the correct size
+        assertEquals(3, realResumes.length);
 
-        assertTrue(matchedResumes == 3);
+        // checking whether the correct resumes are returned
+        assertArrayEquals(realResumes, initiallySavedResumes);
     }
 
     @Test
