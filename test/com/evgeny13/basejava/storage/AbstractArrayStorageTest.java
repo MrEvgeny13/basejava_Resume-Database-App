@@ -113,13 +113,13 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void getAll() throws Exception {
         Resume[] realResumes = storage.getAll();
-        Resume[] initiallySavedResumes = new Resume[] {R_1, R_2, R_3};
+        Resume[] expectedResumes = new Resume[]{R_1, R_2, R_3};
 
         // checking the correct size
         assertEquals(3, realResumes.length);
 
         // checking whether the correct resumes are returned
-        assertArrayEquals(realResumes, initiallySavedResumes);
+        assertArrayEquals(realResumes, expectedResumes);
     }
 
     @Test
