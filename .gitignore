@@ -1,7 +1,6 @@
 .idea
-out
 *.iml
+out
 log
 target
-*.patch
 lib
