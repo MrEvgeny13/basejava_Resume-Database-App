@@ -1,7 +1,5 @@
 package com.evgeny13.basejava.storage;
 
-import com.evgeny13.basejava.exception.ExistStorageException;
-import com.evgeny13.basejava.exception.NotExistStorageException;
 import com.evgeny13.basejava.exception.StorageException;
 import com.evgeny13.basejava.model.Resume;
 
@@ -10,10 +8,12 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
+
     protected static final int STORAGE_LIMIT = 10_000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
+
     protected int size = 0;
 
     public void clear() {
@@ -21,48 +21,29 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    public final void update(Resume r) {
-        int index = getIndex(r.getUuid());
-
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        }
-
-        storage[index] = r;
+    @Override
+    protected void updateResume(Resume r, Object resume) {
+        storage[(Integer) resume] = r;
     }
 
-    public final void save(Resume r) {
-        int index = getIndex(r.getUuid());
-
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        }
+    @Override
+    protected void saveResume(Resume r, Object resume) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
+        } else {
+            insertElement(r, (Integer) resume);
+            size++;
         }
-
-        insertElement(r, index);
-        size++;
     }
 
-    public final Resume get(String uuid) {
-        int index = getIndex(uuid);
-
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-
-        return storage[index];
+    @Override
+    public Resume getResume(Object resume) {
+        return storage[(Integer) resume];
     }
 
-    public final void delete(String uuid) {
-        int index = getIndex(uuid);
-
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-
-        fillDeletedElement(index);
+    @Override
+    public void deleteResume(Object resume) {
+        fillDeletedElement((Integer) resume);
         storage[size - 1] = null;
         size--;
     }
@@ -78,7 +59,12 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
-    protected abstract int getIndex(String uuid);
+    @Override
+    public boolean isExistResume(Object resume) {
+        return (Integer) resume >= 0;
+    }
+
+    protected abstract Integer getIndex(String uuid);
 
     protected abstract void fillDeletedElement(int index);
 
