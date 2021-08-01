@@ -87,6 +87,7 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME_1);
     }
 
+    // only for arrays, not for lists
     @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
         try {
