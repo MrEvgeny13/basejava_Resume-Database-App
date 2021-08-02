@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public abstract class AbstractStorageTest {
     private Storage storage;
@@ -58,7 +58,7 @@ public abstract class AbstractStorageTest {
     public void update() throws Exception {
         Resume newResume = new Resume(UUID_1);
         storage.update(newResume);
-        assertTrue(newResume == storage.get(UUID_1));
+        assertEquals(newResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -68,11 +68,14 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] array = storage.getAll();
-        assertEquals(3, array.length);
-        assertEquals(RESUME_1, array[0]);
-        assertEquals(RESUME_2, array[1]);
-        assertEquals(RESUME_3, array[2]);
+        Resume[] realResumes = storage.getAll();
+        Resume[] expectedResumes = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
+
+        // checking the correct size
+        assertEquals(3, realResumes.length);
+
+        // checking whether the correct resumes are returned
+        assertArrayEquals(realResumes, expectedResumes);
     }
 
     @Test
@@ -95,7 +98,7 @@ public abstract class AbstractStorageTest {
                 storage.save(new Resume());
             }
         } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Premature array overflow");
         }
         storage.save(new Resume());
     }

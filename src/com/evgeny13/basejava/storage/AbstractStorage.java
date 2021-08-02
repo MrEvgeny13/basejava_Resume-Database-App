@@ -39,22 +39,22 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private Object getExistedResume(String uuid) {
-        Object resume = getIndex(uuid);
+        Object searchIndex = getIndex(uuid);
 
-        if (!isExistResume(resume)) {
+        if (!isExistResume(searchIndex)) {
             throw new NotExistStorageException(uuid);
         }
 
-        return resume;
+        return searchIndex;
     }
 
     private Object getNotExistedResume(String uuid) {
-        Object resume = getIndex(uuid);
+        Object searchIndex = getIndex(uuid);
 
-        if (isExistResume(resume)) {
+        if (isExistResume(searchIndex)) {
             throw new ExistStorageException(uuid);
         }
 
-        return resume;
+        return searchIndex;
     }
 }
