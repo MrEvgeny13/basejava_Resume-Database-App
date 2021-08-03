@@ -2,21 +2,21 @@ package com.evgeny13.basejava.storage;
 
 import com.evgeny13.basejava.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * List based storage for Resumes
+ * Map based storage for Resumes
  */
-public class ListStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage {
 
-    private List<Resume> list = new ArrayList<>();
+    private Map<String, Resume> map = new HashMap<>();
 
     @Override
-    protected Integer getIndex(String uuid) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUuid().equals(uuid)) {
-                return i;
+    protected String getIndex(String uuid) {
+        for (Map.Entry<String, Resume> entry : map.entrySet()) {
+            if (entry.getKey().equals(uuid)) {
+                return entry.getKey();
             }
         }
         return null;
@@ -29,36 +29,36 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void updateResume(Resume r, Object resume) {
-        list.set((Integer) resume, r);
+        map.put(((String) resume), r);
     }
 
     @Override
     protected void saveResume(Resume r, Object resume) {
-        list.add(r);
+        map.put(r.getUuid(), r);
     }
 
     @Override
     protected Resume getResume(Object resume) {
-        return list.get((Integer) resume);
+        return map.get((String) resume);
     }
 
     @Override
     protected void deleteResume(Object resume) {
-        list.remove(((Integer) resume).intValue());
+        map.remove((String) resume);
     }
 
     @Override
     public void clear() {
-        list.clear();
+        map.clear();
     }
 
     @Override
     public Resume[] getAll() {
-        return list.toArray(new Resume[list.size()]);
+        return map.values().toArray(new Resume[map.size()]);
     }
 
     @Override
     public int size() {
-        return list.size();
+        return map.size();
     }
 }

@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -69,6 +71,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAll() throws Exception {
         Resume[] realResumes = storage.getAll();
+        Arrays.sort(realResumes);
         Resume[] expectedResumes = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
 
         // checking the correct size
@@ -90,7 +93,9 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME_1);
     }
 
-    // only for arrays, not for lists
+    /*
+     Only for arrays, not for lists and maps
+     */
     @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
         try {
