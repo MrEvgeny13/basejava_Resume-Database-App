@@ -19,26 +19,26 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void deleteResume(Object resume);
 
     public void update(Resume r) {
-        Object resume = getExistedResume(r.getUuid());
+        Object resume = getExistedSearchIndex(r.getUuid());
         updateResume(r, resume);
     }
 
     public void save(Resume r) {
-        Object resume = getNotExistedResume(r.getUuid());
+        Object resume = getNotExistedSearchIndex(r.getUuid());
         saveResume(r, resume);
     }
 
     public Resume get(String uuid) {
-        Object resume = getExistedResume(uuid);
+        Object resume = getExistedSearchIndex(uuid);
         return getResume(resume);
     }
 
     public void delete(String uuid) {
-        Object searchKey = getExistedResume(uuid);
+        Object searchKey = getExistedSearchIndex(uuid);
         deleteResume(searchKey);
     }
 
-    private Object getExistedResume(String uuid) {
+    private Object getExistedSearchIndex(String uuid) {
         Object searchIndex = getIndex(uuid);
 
         if (!isExistResume(searchIndex)) {
@@ -48,7 +48,7 @@ public abstract class AbstractStorage implements Storage {
         return searchIndex;
     }
 
-    private Object getNotExistedResume(String uuid) {
+    private Object getNotExistedSearchIndex(String uuid) {
         Object searchIndex = getIndex(uuid);
 
         if (isExistResume(searchIndex)) {

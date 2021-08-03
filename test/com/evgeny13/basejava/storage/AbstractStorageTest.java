@@ -75,7 +75,7 @@ public abstract class AbstractStorageTest {
         assertEquals(3, realResumes.length);
 
         // checking whether the correct resumes are returned
-        assertArrayEquals(realResumes, expectedResumes);
+        assertArrayEquals(expectedResumes, realResumes);
     }
 
     @Test
