@@ -13,11 +13,9 @@ public class MapStorage extends AbstractStorage {
     private Map<String, Resume> map = new HashMap<>();
 
     @Override
-    protected String getIndex(String uuid) {
-        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-            if (entry.getKey().equals(uuid)) {
-                return entry.getKey();
-            }
+    protected String getSearchKey(String uuid) {
+        if (map.containsKey(uuid)) {
+            return uuid;
         }
         return null;
     }

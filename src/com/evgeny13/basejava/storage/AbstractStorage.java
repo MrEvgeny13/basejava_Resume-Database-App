@@ -6,55 +6,53 @@ import com.evgeny13.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract Object getIndex(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
-    protected abstract boolean isExistResume(Object resume);
+    protected abstract boolean isExistResume(Object searchKey);
 
-    protected abstract void updateResume(Resume r, Object resume);
+    protected abstract void updateResume(Resume r, Object searchKey);
 
-    protected abstract void saveResume(Resume r, Object resume);
+    protected abstract void saveResume(Resume r, Object searchKey);
 
-    protected abstract Resume getResume(Object resume);
+    protected abstract Resume getResume(Object searchKey);
 
-    protected abstract void deleteResume(Object resume);
+    protected abstract void deleteResume(Object searchKey);
 
     public void update(Resume r) {
-        Object resume = getExistedSearchIndex(r.getUuid());
-        updateResume(r, resume);
+        Object searchKey = getExistedSearchKey(r.getUuid());
+        updateResume(r, searchKey);
     }
 
     public void save(Resume r) {
-        Object resume = getNotExistedSearchIndex(r.getUuid());
-        saveResume(r, resume);
+        Object searchKey = getNotExistedSearchKey(r.getUuid());
+        saveResume(r, searchKey);
     }
 
     public Resume get(String uuid) {
-        Object resume = getExistedSearchIndex(uuid);
-        return getResume(resume);
+        Object searchKey = getExistedSearchKey(uuid);
+        return getResume(searchKey);
     }
 
     public void delete(String uuid) {
-        Object searchKey = getExistedSearchIndex(uuid);
+        Object searchKey = getExistedSearchKey(uuid);
         deleteResume(searchKey);
     }
 
-    private Object getExistedSearchIndex(String uuid) {
-        Object searchIndex = getIndex(uuid);
+    private Object getExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
 
-        if (!isExistResume(searchIndex)) {
+        if (!isExistResume(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
-
-        return searchIndex;
+        return searchKey;
     }
 
-    private Object getNotExistedSearchIndex(String uuid) {
-        Object searchIndex = getIndex(uuid);
+    private Object getNotExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
 
-        if (isExistResume(searchIndex)) {
+        if (isExistResume(searchKey)) {
             throw new ExistStorageException(uuid);
         }
-
-        return searchIndex;
+        return searchKey;
     }
 }

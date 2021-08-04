@@ -64,7 +64,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (int) resume >= 0;
     }
 
-    protected abstract Integer getIndex(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void fillDeletedElement(int index);
 
