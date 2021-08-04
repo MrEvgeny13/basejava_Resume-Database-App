@@ -8,40 +8,40 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getSearchKey(String uuid);
 
-    protected abstract boolean isExistResume(Object searchKey);
+    protected abstract boolean isExist(Object searchKey);
 
-    protected abstract void updateResume(Resume r, Object searchKey);
+    protected abstract void doUpdate(Resume r, Object searchKey);
 
-    protected abstract void saveResume(Resume r, Object searchKey);
+    protected abstract void doSave(Resume r, Object searchKey);
 
-    protected abstract Resume getResume(Object searchKey);
+    protected abstract Resume doGet(Object searchKey);
 
-    protected abstract void deleteResume(Object searchKey);
+    protected abstract void doDelete(Object searchKey);
 
     public void update(Resume r) {
         Object searchKey = getExistedSearchKey(r.getUuid());
-        updateResume(r, searchKey);
+        doUpdate(r, searchKey);
     }
 
     public void save(Resume r) {
         Object searchKey = getNotExistedSearchKey(r.getUuid());
-        saveResume(r, searchKey);
+        doSave(r, searchKey);
     }
 
     public Resume get(String uuid) {
         Object searchKey = getExistedSearchKey(uuid);
-        return getResume(searchKey);
+        return doGet(searchKey);
     }
 
     public void delete(String uuid) {
         Object searchKey = getExistedSearchKey(uuid);
-        deleteResume(searchKey);
+        doDelete(searchKey);
     }
 
     private Object getExistedSearchKey(String uuid) {
         Object searchKey = getSearchKey(uuid);
 
-        if (!isExistResume(searchKey)) {
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
         return searchKey;
@@ -50,7 +50,7 @@ public abstract class AbstractStorage implements Storage {
     private Object getNotExistedSearchKey(String uuid) {
         Object searchKey = getSearchKey(uuid);
 
-        if (isExistResume(searchKey)) {
+        if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
         return searchKey;

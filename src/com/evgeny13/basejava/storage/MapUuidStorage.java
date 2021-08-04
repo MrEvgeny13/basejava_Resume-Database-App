@@ -8,41 +8,37 @@ import java.util.Map;
 /**
  * Map based storage for Resumes
  */
-public class MapStorage extends AbstractStorage {
-
+public class MapUuidStorage extends AbstractStorage {
     private Map<String, Resume> map = new HashMap<>();
 
     @Override
     protected String getSearchKey(String uuid) {
-        if (map.containsKey(uuid)) {
-            return uuid;
-        }
-        return null;
+        return map.containsKey(uuid) ? uuid : null;
     }
 
     @Override
-    protected boolean isExistResume(Object resume) {
-        return resume != null;
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
     }
 
     @Override
-    protected void updateResume(Resume r, Object resume) {
-        map.put(((String) resume), r);
+    protected void doUpdate(Resume r, Object searchKey) {
+        map.put(((String) searchKey), r);
     }
 
     @Override
-    protected void saveResume(Resume r, Object resume) {
+    protected void doSave(Resume r, Object searchKey) {
         map.put(r.getUuid(), r);
     }
 
     @Override
-    protected Resume getResume(Object resume) {
-        return map.get((String) resume);
+    protected Resume doGet(Object searchKey) {
+        return map.get((String) searchKey);
     }
 
     @Override
-    protected void deleteResume(Object resume) {
-        map.remove((String) resume);
+    protected void doDelete(Object searchKey) {
+        map.remove((String) searchKey);
     }
 
     @Override
