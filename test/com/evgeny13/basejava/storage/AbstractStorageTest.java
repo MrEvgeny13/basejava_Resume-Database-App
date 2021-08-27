@@ -2,9 +2,7 @@ package com.evgeny13.basejava.storage;
 
 import com.evgeny13.basejava.exception.ExistStorageException;
 import com.evgeny13.basejava.exception.NotExistStorageException;
-import com.evgeny13.basejava.exception.StorageException;
 import com.evgeny13.basejava.model.Resume;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +12,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
-    private Storage storage;
+    protected Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -27,10 +25,10 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1);
-        RESUME_2 = new Resume(UUID_2);
-        RESUME_3 = new Resume(UUID_3);
-        RESUME_4 = new Resume(UUID_4);
+        RESUME_1 = new Resume(UUID_1, "firstName");
+        RESUME_2 = new Resume(UUID_2, "secondName");
+        RESUME_3 = new Resume(UUID_3, "thirdName");
+        RESUME_4 = new Resume(UUID_4, "fourthName");
     }
 
     protected AbstractStorageTest(Storage storage) {
@@ -58,7 +56,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() throws Exception {
-        Resume newResume = new Resume(UUID_1);
+        Resume newResume = new Resume(UUID_1, "fullName");
         storage.update(newResume);
         assertEquals(newResume, storage.get(UUID_1));
     }
@@ -91,21 +89,6 @@ public abstract class AbstractStorageTest {
     @Test(expected = ExistStorageException.class)
     public void saveExist() throws Exception {
         storage.save(RESUME_1);
-    }
-
-    /*
-     Only for arrays, not for lists and maps
-     */
-    @Test(expected = StorageException.class)
-    public void saveOverflow() throws Exception {
-        try {
-            for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException e) {
-            Assert.fail("Premature array overflow");
-        }
-        storage.save(new Resume());
     }
 
     @Test(expected = NotExistStorageException.class)
