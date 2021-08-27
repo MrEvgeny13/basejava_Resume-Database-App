@@ -2,7 +2,9 @@ package com.evgeny13.basejava.storage;
 
 import com.evgeny13.basejava.model.Resume;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,8 +49,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return map.values().toArray(new Resume[map.size()]);
+    public List<Resume> getAllReal() {
+        return Collections.emptyList();
     }
 
     @Override
