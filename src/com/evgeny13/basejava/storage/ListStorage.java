@@ -52,7 +52,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllReal() {
+    public List<Resume> doCopyAll() {
         return new ArrayList<>(list);
     }
 
