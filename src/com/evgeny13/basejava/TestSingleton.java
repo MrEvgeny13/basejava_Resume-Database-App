@@ -3,6 +3,7 @@ package com.evgeny13.basejava;
 import com.evgeny13.basejava.model.SectionType;
 
 public class TestSingleton {
+
     private static TestSingleton instance;
 
     public static TestSingleton getInstance() {
