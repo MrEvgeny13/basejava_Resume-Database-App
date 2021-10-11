@@ -1,13 +1,16 @@
 package com.evgeny13.basejava.model;
 
 public enum ContactType {
-    PHONE("Телефон"),
+    PHONE("Тел."),
+    MOBILE("Мобильный"),
+    HOME_PHONE("Домашний тел."),
     SKYPE("Skype"),
     MAIL("Почта"),
     LINKEDIN("Профиль LinkedIn"),
     GITHUB("Профиль GitHub"),
     STACKOVERFLOW("Профиль Stackoverflow"),
-    SITE("Домашняя страница");
+    HOME_PAGE("Домашняя страница");
+
 
     private final String title;
 

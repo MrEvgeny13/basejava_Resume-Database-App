@@ -16,7 +16,7 @@ public class Resume implements Comparable<Resume> {
     private final String fullName;
 
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-    private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -33,12 +33,12 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
-    public String getContact(ContactType contactType) {
-        return contacts.get(contactType);
+    public String getContact(ContactType type) {
+        return contacts.get(type);
     }
 
-    public AbstractSection getAbstractSection(SectionType sectionType) {
-        return sections.get(sectionType);
+    public Section getAbstractSection(SectionType type) {
+        return sections.get(type);
     }
 
     @Override

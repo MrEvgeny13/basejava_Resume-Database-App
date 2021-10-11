@@ -13,7 +13,7 @@ public class ResumeTestData {
     public static final String LINKEDIN = "https://www.linkedin.com/in/gkislin";
     public static final String GITHUB = "https://github.com/gkislin";
     public static final String STACKOVERFLOW = "https://stackoverflow.com/users/548473";
-    public static final String HOMEPAGE = "http://gkislin.ru/";
+    public static final String HOME_PAGE = "http://gkislin.ru/";
     public static final String OBJECTIVE_CONTENT = "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям";
     public static final String PERSONAL_CONTENT = "Аналитический склад ума, сильная логика, креативность, инициативность. " +
             "Пурист кода и архитектуры.";
@@ -67,16 +67,16 @@ public class ResumeTestData {
     ));
 
     // Блок "Опыт работы"
-    private static final List<Experience> EXPERIENCE_CONTENT = new ArrayList<>(Arrays.asList(
-            new Experience("Java Online Projects", "http://javaops.ru",
+    private static final List<Organization> EXPERIENCE_CONTENT = new ArrayList<>(Arrays.asList(
+            new Organization("Java Online Projects", "http://javaops.ru",
                     LocalDate.of(2013, 10, 1), LocalDate.now(),
                     "Автор проекта", "Создание, организация и проведение Java онлайн проектов и стажировок."),
-            new Experience("Wrike", "http://www.wrike.com/",
+            new Organization("Wrike", "http://www.wrike.com/",
                     LocalDate.of(2014, 10, 1), LocalDate.of(2016, 1, 1),
                     "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike" +
                     "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная " +
                     "аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."),
-            new Experience("RIT Center", null,
+            new Organization("RIT Center", null,
                     LocalDate.of(2012, 4, 1), LocalDate.of(2014, 10, 1),
                     "Java архитектор", "Организация процесса разработки системы ERP для разных окружений: релизная " +
                     "политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), " +
@@ -87,14 +87,14 @@ public class ResumeTestData {
                     "development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, " +
                     "OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, " +
                     "PL/Python"),
-            new Experience("Luxoft (Deutche Bank)", "http://luxoft.com",
+            new Organization("Luxoft (Deutche Bank)", "http://luxoft.com",
                     LocalDate.of(2010, 12, 1), LocalDate.of(2012, 4, 1),
                     "Ведущий программист", "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, " +
                     "Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной " +
                     "части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа " +
                     "результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, " +
                     "ExtGWT (GXT), Highstock, Commet, HTML5."),
-            new Experience("Yota", "http://www.yota.ru/",
+            new Organization("Yota", "http://www.yota.ru/",
                     LocalDate.of(2008, 6, 1), LocalDate.of(2012, 10, 1),
                     "Ведущий специалист", "Дизайн и имплементация Java EE фреймворка для отдела " +
                     "\"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, " +
@@ -103,24 +103,24 @@ public class ResumeTestData {
     ));
 
     // Блок "Образование"
-    public static final List<Experience> EDUCATION_CONTENT = new ArrayList<>(Arrays.asList(
-            new Experience("Coursera", "https://www.coursera.org/learn/progfun1",
+    public static final List<Organization> EDUCATION_CONTENT = new ArrayList<>(Arrays.asList(
+            new Organization("Coursera", "https://www.coursera.org/learn/progfun1",
                     LocalDate.of(2013, 3, 1), LocalDate.of(2013, 5, 1),
                     "\"Functional Programming Principles in Scala\" by Martin Odersky", null),
-            new Experience("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
+            new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
                     LocalDate.of(2011, 3, 1), LocalDate.of(2011, 4, 1),
                     "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", null),
-            new Experience("Siemens AG", "http://siemens.ru/",
+            new Organization("Siemens AG", "http://siemens.ru/",
                     LocalDate.of(2005, 1, 1), LocalDate.of(2005, 4, 1),
                     "3 месяца обучения мобильным IN сетям (Берлин)", null),
-            new Experience("Alcatel", "http://www.alcatel.ru",
+            new Organization("Alcatel", "http://www.alcatel.ru",
                     LocalDate.of(1997, 9, 1), LocalDate.of(1998, 3, 1),
                     "6 месяцев обучения цифровым телефонным сетям (Москва)", null),
-            new Experience("Санкт-Петербургский национальный исследовательский университет " +
+            new Organization("Санкт-Петербургский национальный исследовательский университет " +
                     "информационных технологий, механики и оптики", null,
                     LocalDate.of(1993, 9, 1), LocalDate.of(1996, 7, 1),
                     "Аспирантура (программист С, С++)", null),
-            new Experience("Заочная физико-техническая школа при МФТИ", "http://school.mipt.ru",
+            new Organization("Заочная физико-техническая школа при МФТИ", "http://school.mipt.ru",
                     LocalDate.of(1984, 9, 1), LocalDate.of(1987, 6, 1),
                     "Закончил с отличием", null)
     ));
@@ -128,7 +128,7 @@ public class ResumeTestData {
 
     // метод для вывода всех секций резюме на консоль
     public static void printResume(Resume testResume, Map<ContactType, String> contacts,
-                                   Map<SectionType, AbstractSection> sections) {
+                                   Map<SectionType, Section> sections) {
         System.out.println("Section with main information:");
         System.out.print("\n");
         System.out.println(testResume);
@@ -145,7 +145,7 @@ public class ResumeTestData {
 
         System.out.println("Section with other information:");
         System.out.print("\n");
-        for (Map.Entry<SectionType, AbstractSection> entry : sections.entrySet()) {
+        for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
             System.out.println(entry);
         }
     }
@@ -155,7 +155,7 @@ public class ResumeTestData {
         Resume testResume = new Resume("Григорий Кислин");
 
         final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-        final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+        final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
         // заполняем enum'ы из Контактов
         contacts.put(ContactType.PHONE, PHONE_NUMBER);
@@ -164,15 +164,15 @@ public class ResumeTestData {
         contacts.put(ContactType.LINKEDIN, LINKEDIN);
         contacts.put(ContactType.GITHUB, GITHUB);
         contacts.put(ContactType.STACKOVERFLOW, STACKOVERFLOW);
-        contacts.put(ContactType.SITE, HOMEPAGE);
+        contacts.put(ContactType.HOME_PAGE, HOME_PAGE);
 
         // заполняем enum'ы из секций после Контактов
         sections.put(SectionType.PERSONAL, new TextSection(PERSONAL_CONTENT));
         sections.put(SectionType.OBJECTIVE, new TextSection(OBJECTIVE_CONTENT));
         sections.put(SectionType.ACHIEVEMENT, new ListSection(ACHIEVEMENT_CONTENT));
         sections.put(SectionType.QUALIFICATIONS, new ListSection(QUALIFICATIONS_CONTENT));
-        sections.put(SectionType.EXPERIENCE, new Organization(EXPERIENCE_CONTENT));
-        sections.put(SectionType.EDUCATION, new Organization(EDUCATION_CONTENT));
+        sections.put(SectionType.EXPERIENCE, new OrganizationSection(EXPERIENCE_CONTENT));
+        sections.put(SectionType.EDUCATION, new OrganizationSection(EDUCATION_CONTENT));
 
         // выводим все секции резюме на консоль
         printResume(testResume, contacts, sections);
