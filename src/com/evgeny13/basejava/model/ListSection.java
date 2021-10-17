@@ -1,11 +1,16 @@
 package com.evgeny13.basejava.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section {
 
     private final List<String> items;
+
+    public ListSection(String... items) {
+        this(Arrays.asList(items));
+    }
 
     public ListSection(List<String> elements) {
         Objects.requireNonNull(elements, "Elements must not be null");
