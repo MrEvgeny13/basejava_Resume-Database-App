@@ -11,7 +11,6 @@ public enum ContactType {
     STACKOVERFLOW("Профиль Stackoverflow"),
     HOME_PAGE("Домашняя страница");
 
-
     private final String title;
 
     ContactType(String title) {
