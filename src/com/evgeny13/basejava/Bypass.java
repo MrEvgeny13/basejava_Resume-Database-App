@@ -5,30 +5,31 @@ import java.io.IOException;
 
 public class Bypass {
 
-    public static void getAllFiles(String path) throws IOException {
-        File startFolder = new File(path);
-        File[] files = startFolder.listFiles();
-
-        for (File file : files) {
-            if (file.isFile()) {
-                printFileName(file);
-            } else {
-                getAllFiles(file.getPath());
-            }
-        }
-    }
-
-    private static void printFileName(File file) throws IOException {
-        System.out.println(file.getCanonicalPath());
-    }
-
     public static void main(String[] args) {
-        String startFolder = "C:\\Users\\Evgeny\\IdeaProjects\\JavaOPs\\basejava";
+        String startFolder = "./src/";
 
         try {
             getAllFiles(startFolder);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void getAllFiles(String path) throws IOException {
+        File startFolder = new File(path);
+        File[] files = startFolder.listFiles();
+
+        if (files == null) {
+            throw new IOException();
+        }
+
+        for (File file : files) {
+            if (file.isFile()) {
+                System.out.println(file.getName());
+                ;
+            } else {
+                getAllFiles(file.getPath());
+            }
         }
     }
 }
