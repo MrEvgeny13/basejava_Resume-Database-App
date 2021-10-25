@@ -26,7 +26,6 @@ public class Bypass {
         for (File file : files) {
             if (file.isFile()) {
                 System.out.println(file.getName());
-                ;
             } else {
                 getAllFiles(file.getPath());
             }
