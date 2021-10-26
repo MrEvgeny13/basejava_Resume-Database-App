@@ -41,9 +41,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         String[] list = directory.list();
 
         if (list == null) {
-            throw new StorageException("Directory is empty", null);
+            throw new StorageException("Directory read error", null);
         }
-
         return list.length;
     }
 
@@ -57,7 +56,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             doWrite(r, file);
         } catch (IOException e) {
-            throw new StorageException("Directory is empty", r.getUuid(), e);
+            throw new StorageException("File write error", r.getUuid(), e);
         }
     }
 
@@ -71,7 +70,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("Could not create file: " + file.getAbsolutePath(), file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
         doUpdate(r, file);
     }
@@ -85,14 +84,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             return doRead(file);
         } catch (IOException e) {
-            throw new StorageException("Directory is empty", file.getName(), e);
+            throw new StorageException("File read error", file.getName(), e);
         }
     }
 
     @Override
     protected void doDelete(File file) {
         if (!file.delete()) {
-            throw new StorageException("Directory is empty", file.getName());
+            throw new StorageException("File delete error", file.getName());
         }
     }
 
@@ -101,15 +100,12 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         File[] files = directory.listFiles();
 
         if (files == null) {
-            throw new StorageException("Directory is empty", null);
+            throw new StorageException("Directory read error", null);
         }
-
         List<Resume> list = new ArrayList<>(files.length);
-
         for (File file : files) {
             list.add(doGet(file));
         }
-
-        return null;
+        return list;
     }
 }

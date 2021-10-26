@@ -6,7 +6,7 @@ import java.io.IOException;
 public class Bypass {
 
     public static void main(String[] args) {
-        String startFolder = "./src/";
+        String startFolder = "./src/com/evgeny13/basejava";
 
         try {
             getAllFiles(startFolder);
