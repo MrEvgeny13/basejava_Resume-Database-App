@@ -1,6 +1,4 @@
-package com.evgeny13.basejava;
-
-import com.evgeny13.basejava.model.*;
+package com.evgeny13.basejava.model;
 
 import java.util.Map;
 

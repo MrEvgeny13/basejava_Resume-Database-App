@@ -1,6 +1,5 @@
-package com.evgeny13.basejava;
+package com.evgeny13.basejava.model;
 
-import com.evgeny13.basejava.model.Organization;
 import com.evgeny13.basejava.util.DateUtil;
 
 import java.time.LocalDate;

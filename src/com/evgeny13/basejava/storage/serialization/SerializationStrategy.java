@@ -1,4 +1,4 @@
-package com.evgeny13.basejava.storage;
+package com.evgeny13.basejava.storage.serialization;
 
 import com.evgeny13.basejava.model.Resume;
 

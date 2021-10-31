@@ -2,6 +2,7 @@ package com.evgeny13.basejava.storage;
 
 import com.evgeny13.basejava.exception.StorageException;
 import com.evgeny13.basejava.model.Resume;
+import com.evgeny13.basejava.storage.serialization.SerializationStrategy;
 
 import java.io.*;
 import java.util.ArrayList;
