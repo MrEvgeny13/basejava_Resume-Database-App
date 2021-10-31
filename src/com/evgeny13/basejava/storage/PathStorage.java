@@ -10,46 +10,60 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
-    private final Path storage;
+    private final Path directory;
     private final SerializationStrategy serializationStrategy;
 
     public PathStorage(String dir, SerializationStrategy serializationStrategy) {
         Objects.requireNonNull(dir, "storage must not be null");
         Objects.requireNonNull(serializationStrategy, "strategy must not be null");
-        this.storage = Paths.get(dir);
-        this.serializationStrategy = serializationStrategy;
 
-        if (!Files.isDirectory(storage)) {
-            throw new IllegalArgumentException(storage.getFileName() + " is not a directory");
+        this.serializationStrategy = serializationStrategy;
+        directory = Paths.get(dir);
+
+        if (!Files.isDirectory(directory)) {
+            throw new IllegalArgumentException(directory.getFileName() + " is not a directory");
         }
-        if (!Files.isReadable(storage) || !Files.isWritable(storage)) {
-            throw new IllegalArgumentException(storage.getFileName() + " is not readable or writeable");
+        if (!Files.isReadable(directory) || !Files.isWritable(directory)) {
+            throw new IllegalArgumentException(directory.getFileName() + " is not readable or writeable");
         }
+    }
+
+    private Stream<Path>getFilesList() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            throw new StorageException("Directory reading error", e);
+        }
+    }
+
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
     }
 
     @Override
     protected Path getSearchKey(String uuid) {
-        return storage.resolve(uuid);
+        return directory.resolve(uuid);
     }
 
     @Override
-    protected boolean isExist(Path pointer) {
-        return Files.exists(pointer);
+    protected boolean isExist(Path path) {
+        return Files.isRegularFile(path);
     }
 
     @Override
-    protected void doSave(Resume resume, Path path) {
+    protected void doSave(Resume r, Path path) {
         try {
-            doUpdate(resume, Files.createFile(path));
+            Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Saving error", path.toString(), e);
+            throw new StorageException("Saving error " + path, getFileName(path), e);
         }
+        doUpdate(r, path);
     }
 
     @Override
@@ -57,16 +71,16 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return serializationStrategy.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Reading error", path.toString(), e);
+            throw new StorageException("Reading error", getFileName(path), e);
         }
     }
 
     @Override
-    protected void doUpdate(Resume resume, Path path) {
+    protected void doUpdate(Resume r, Path path) {
         try {
-            serializationStrategy.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
+            serializationStrategy.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Updating error", path.toString(), e);
+            throw new StorageException("Writing error", r.getUuid(), e);
         }
     }
 
@@ -81,27 +95,16 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> doCopyAll() {
-        try {
-            List<Path> files = Files.list(storage).collect(Collectors.toList());
-            List<Resume> resumes = new ArrayList<>();
-
-            for (Path file : files) {
-                resumes.add(doGet(file));
-            }
-
-            return resumes;
-        } catch (IOException e) {
-            throw new StorageException("Copying error", null, e);
-        }
+        return getFilesList().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        doCopyAll().clear();
+        getFilesList().forEach(this::doDelete);
     }
 
     @Override
     public int size() {
-        return doCopyAll().size();
+        return (int) getFilesList().count();
     }
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Bypass {
 
     public static void main(String[] args) {
-        File startFolder = new File(".\\src\\com\\evgeny13\\basejava");
+        File startFolder = new File("storageForTest");
 
         try {
             getAllFiles(" ", startFolder);

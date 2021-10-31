@@ -13,9 +13,11 @@ public class FileStorage extends AbstractStorage<File> {
     private File directory;
     private final SerializationStrategy serializationStrategy;
 
-    public FileStorage(File directory, SerializationStrategy serializationStrategy) {
+    protected FileStorage(File directory, SerializationStrategy serializationStrategy) {
         Objects.requireNonNull(directory, "directory must not be null");
         Objects.requireNonNull(serializationStrategy, "strategy must not be null");
+
+        this.serializationStrategy = serializationStrategy;
 
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -23,9 +25,7 @@ public class FileStorage extends AbstractStorage<File> {
         if (!directory.canRead() || !directory.canWrite()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
-
         this.directory = directory;
-        this.serializationStrategy = serializationStrategy;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class FileStorage extends AbstractStorage<File> {
         String[] list = directory.list();
 
         if (list == null) {
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
         return list.length;
     }
@@ -99,7 +99,7 @@ public class FileStorage extends AbstractStorage<File> {
         File[] files = directory.listFiles();
 
         if (files == null) {
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
 
         List<Resume> list = new ArrayList<>(files.length);

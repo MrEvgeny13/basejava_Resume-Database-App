@@ -15,9 +15,10 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
-    protected static final String STORAGE_DIR = "D:\\Projects\\basejava\\storage";
-    protected static final File STORAGE_FILE = new File(STORAGE_DIR);
+    protected static final File STORAGE_DIR = new File("C:\\projects\\basejava\\storage");
+
     protected final Storage storage;
+
     private final Resume RESUME_1 = ResumeTestData.createResume("uuid1", "Иванов Иван");
     private final Resume RESUME_2 = ResumeTestData.createResume("uuid2", "Петров Петр");
     private final Resume RESUME_3 = ResumeTestData.createResume("uuid3", "Сидоров Михаил");
