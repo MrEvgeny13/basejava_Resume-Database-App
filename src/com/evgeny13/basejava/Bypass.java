@@ -6,7 +6,7 @@ import java.io.IOException;
 public class Bypass {
 
     public static void main(String[] args) {
-        String startFolder = "./src/com/evgeny13/basejava";
+        File startFolder = new File("./src/com/evgeny13/basejava");
 
         try {
             getAllFiles(" ", startFolder);
@@ -15,9 +15,8 @@ public class Bypass {
         }
     }
 
-    private static void getAllFiles(String indent, String path) throws IOException {
-        File startFolder = new File(path);
-        File[] files = startFolder.listFiles();
+    private static void getAllFiles(String indent, File startFile) throws IOException {
+        File[] files = startFile.listFiles();
 
         if (files == null) {
             throw new IOException();
@@ -28,7 +27,7 @@ public class Bypass {
                 System.out.println(indent + "file: " + file.getName());
             } else {
                 System.out.println(indent + "dir: " + file.getName());
-                getAllFiles(indent + " ", file.getPath());
+                getAllFiles(indent + " ", file);
             }
         }
     }

@@ -34,7 +34,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getSearchKey(String uuid) {
-        return Paths.get(storage + "\\" + uuid);
+        return storage.resolve(uuid);
     }
 
     @Override
@@ -45,8 +45,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doSave(Resume resume, Path path) {
         try {
-            Files.createFile(path);
-            serializationStrategy.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
+            doUpdate(resume, Files.createFile(path));
         } catch (IOException e) {
             throw new StorageException("Saving error", path.toString(), e);
         }
@@ -97,11 +96,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        try {
-            Files.list(storage).forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path's clearing error", null);
-        }
+        doCopyAll().clear();
     }
 
     @Override

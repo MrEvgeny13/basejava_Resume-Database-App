@@ -100,7 +100,9 @@ public class FileStorage extends AbstractStorage<File> {
         if (files == null) {
             throw new StorageException("Directory read error", null);
         }
+
         List<Resume> list = new ArrayList<>(files.length);
+
         for (File file : files) {
             list.add(doGet(file));
         }
