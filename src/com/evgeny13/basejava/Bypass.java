@@ -9,13 +9,13 @@ public class Bypass {
         String startFolder = "./src/com/evgeny13/basejava";
 
         try {
-            getAllFiles(startFolder);
+            getAllFiles(" ", startFolder);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void getAllFiles(String path) throws IOException {
+    private static void getAllFiles(String indent, String path) throws IOException {
         File startFolder = new File(path);
         File[] files = startFolder.listFiles();
 
@@ -25,9 +25,10 @@ public class Bypass {
 
         for (File file : files) {
             if (file.isFile()) {
-                System.out.println(file.getName());
+                System.out.println(indent + "file: " + file.getName());
             } else {
-                getAllFiles(file.getPath());
+                System.out.println(indent + "dir: " + file.getName());
+                getAllFiles(indent + " ", file.getPath());
             }
         }
     }
