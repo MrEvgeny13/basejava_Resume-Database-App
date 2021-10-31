@@ -11,9 +11,6 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         super(storage);
     }
 
-    /*
-     Only for arrays, not for lists and maps
-     */
     @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
         try {
