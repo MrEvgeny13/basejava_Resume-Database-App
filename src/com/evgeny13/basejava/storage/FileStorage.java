@@ -30,23 +30,17 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
+        File[] files = listDirectory();
 
-        if (files != null) {
-            for (File file : files) {
-                doDelete(file);
-            }
+        for (File file : files) {
+            doDelete(file);
         }
     }
 
     @Override
     public int size() {
-        String[] list = directory.list();
-
-        if (list == null) {
-            throw new StorageException("Directory read error");
-        }
-        return list.length;
+        File[] files = listDirectory();
+        return files.length;
     }
 
     @Override
@@ -96,17 +90,23 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> doCopyAll() {
+        File[] files = listDirectory();
+        List<Resume> list = new ArrayList<>(files.length);
+
+        for (File file : files) {
+            list.add(doGet(file));
+        }
+
+        return list;
+    }
+
+    private File[] listDirectory() {
         File[] files = directory.listFiles();
 
         if (files == null) {
             throw new StorageException("Directory read error");
         }
 
-        List<Resume> list = new ArrayList<>(files.length);
-
-        for (File file : files) {
-            list.add(doGet(file));
-        }
-        return list;
+        return files;
     }
 }
