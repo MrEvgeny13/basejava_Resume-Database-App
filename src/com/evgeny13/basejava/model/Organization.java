@@ -26,27 +26,22 @@ public class Organization implements Serializable {
     public Organization() {
     }
 
+    public Organization(String name, String url, Position... positions) {
+        this(new Link(name, url), Arrays.asList(positions));
+    }
+
     public Organization(Link homePage, List<Position> positions) {
         this.homePage = homePage;
         this.positions = positions;
-    }
-
-    public Organization(String name, String url, Position... positions) {
-        this(new Link(name, url), Arrays.asList(positions));
     }
 
     public Link getHomePage() {
         return homePage;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public List<Position> getPositions() {
         return positions;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -93,7 +88,7 @@ public class Organization implements Serializable {
             this.startDate = startDate;
             this.endDate = endDate;
             this.title = title;
-            this.description = description;
+            this.description = description == null ? "" : description;
         }
 
         public LocalDate getStartDate() {
