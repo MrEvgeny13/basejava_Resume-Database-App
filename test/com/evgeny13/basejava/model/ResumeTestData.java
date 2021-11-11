@@ -42,7 +42,7 @@ public class ResumeTestData {
         resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(resumeData.getExperiences()));
         resume.addSection(SectionType.EDUCATION, new OrganizationSection(resumeData.getEducation()));
         System.out.println(resume.getFullName());
-        printContacts(resume.getContact());
-        printSections(resume.getAbstractSection());
+        printContacts(resume.getContacts());
+        printSections(resume.getSections());
     }
 }
