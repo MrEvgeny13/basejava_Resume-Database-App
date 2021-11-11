@@ -2,7 +2,7 @@ package com.evgeny13.basejava.storage;
 
 import com.evgeny13.basejava.exception.StorageException;
 import com.evgeny13.basejava.model.Resume;
-import com.evgeny13.basejava.storage.serialization.SerializationStrategy;
+import com.evgeny13.basejava.storage.serializer.StreamSerializer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
-    private final Path directory;
-    private final SerializationStrategy serializationStrategy;
+    private Path directory;
+    private StreamSerializer streamSerializer;
 
-    public PathStorage(String dir, SerializationStrategy serializationStrategy) {
+    public PathStorage(String dir, StreamSerializer streamSerializer) {
         Objects.requireNonNull(dir, "storage must not be null");
-        Objects.requireNonNull(serializationStrategy, "strategy must not be null");
+        Objects.requireNonNull(streamSerializer, "strategy must not be null");
 
-        this.serializationStrategy = serializationStrategy;
+        this.streamSerializer = streamSerializer;
         directory = Paths.get(dir);
 
         if (!Files.isDirectory(directory)) {
@@ -67,7 +67,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return serializationStrategy.doRead(new BufferedInputStream(Files.newInputStream(path)));
+            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Reading error", getFileName(path), e);
         }
@@ -76,7 +76,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path path) {
         try {
-            serializationStrategy.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
+            streamSerializer.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Writing error", r.getUuid(), e);
         }

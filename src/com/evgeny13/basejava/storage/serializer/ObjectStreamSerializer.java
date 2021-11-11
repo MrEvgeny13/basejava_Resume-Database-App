@@ -1,11 +1,11 @@
-package com.evgeny13.basejava.storage.serialization;
+package com.evgeny13.basejava.storage.serializer;
 
 import com.evgeny13.basejava.exception.StorageException;
 import com.evgeny13.basejava.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamSerialization implements SerializationStrategy {
+public class ObjectStreamSerializer implements StreamSerializer {
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {

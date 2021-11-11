@@ -1,0 +1,10 @@
+package com.evgeny13.basejava.storage;
+
+import com.evgeny13.basejava.storage.serializer.XmlStreamSerializer;
+
+public class XmlPathStorageTest extends AbstractStorageTest {
+
+    public XmlPathStorageTest() {
+        super(new PathStorage(STORAGE_DIR.getAbsolutePath(), new XmlStreamSerializer()));
+    }
+}
