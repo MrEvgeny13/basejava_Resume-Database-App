@@ -69,12 +69,13 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private LocalDate readLocalDate(DataInputStream dis) throws IOException {
-        return LocalDate.of(dis.readInt(), dis.readInt(), 1);
+        return LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt());
     }
 
     private void writeLocalDate(DataOutputStream dos, LocalDate ld) throws IOException {
         dos.writeInt(ld.getYear());
         dos.writeInt(ld.getMonth().getValue());
+        dos.writeInt(ld.getDayOfMonth());
     }
 
     private AbstractSection readSection(DataInputStream dis, SectionType sectionType) throws IOException {
