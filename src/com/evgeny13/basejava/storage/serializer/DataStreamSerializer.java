@@ -101,7 +101,7 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private <T> List<T> readList(DataInputStream dis, ItemReader<T> reader) throws IOException {
+    private <T> List<T> readList(DataInputStream dis, ElementReader<T> reader) throws IOException {
         int size = dis.readInt();
         List<T> list = new ArrayList<>(size);
 
@@ -112,19 +112,19 @@ public class DataStreamSerializer implements StreamSerializer {
         return list;
     }
 
-    private interface ItemProcessor {
+    private interface ElementProcessor {
         void process() throws IOException;
     }
 
-    private interface ItemReader<T> {
+    private interface ElementReader<T> {
         T read() throws IOException;
     }
 
-    private interface ItemWriter<T> {
+    private interface ElementWriter<T> {
         void write(T t) throws IOException;
     }
 
-    private void readItems(DataInputStream dis, ItemProcessor processor) throws IOException {
+    private void readItems(DataInputStream dis, ElementProcessor processor) throws IOException {
         int size = dis.readInt();
 
         for (int i = 0; i < size; i++) {
@@ -132,7 +132,7 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, ItemWriter<T> writer) throws IOException {
+    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, ElementWriter<T> writer) throws IOException {
         dos.writeInt(collection.size());
 
         for (T item : collection) {

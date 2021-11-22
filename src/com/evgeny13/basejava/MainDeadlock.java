@@ -16,7 +16,7 @@ public class MainDeadlock {
             synchronized (lock_one) {
                 System.out.println(getThreadName() + " захватил " + lock_one);
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
