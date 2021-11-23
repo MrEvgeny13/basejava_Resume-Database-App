@@ -9,35 +9,27 @@ public class MainStream {
     public static void main(String[] args) {
         // test case for minValue-method:
         int[] testNumbers1 = {1, 5, 6, 3, 4};
-        minValue(testNumbers1);
+        System.out.println("Number from minValue-method: " + minValue(testNumbers1));
 
         // test case for oddOrEven-method:
-        List<Integer> testNumbers2 = new ArrayList<>();
-        testNumbers2.add(2);
-        testNumbers2.add(5);
-        testNumbers2.add(7);
-        testNumbers2.add(8);
-        oddOrEven(testNumbers2);
+        List<Integer> testNumbers2 = new ArrayList<>(Arrays.asList(2, 5, 7, 8));
+        System.out.println("Numbers from oddOrEven-method: " + oddOrEven(testNumbers2));
     }
 
-    public static void minValue(int[] values) {
-        int number = Arrays.stream(values)
+    public static int minValue(int[] values) {
+        return Arrays.stream(values)
                 .distinct()
                 .sorted()
                 .reduce(0, (x, y) -> x * 10 + y);
-
-        System.out.println("Number from minValue-method: " + number);
     }
 
-    public static void oddOrEven(List<Integer> integers) {
+    public static List<Integer> oddOrEven(List<Integer> integers) {
         boolean isEven = integers.stream()
                 .mapToInt(s1 -> s1)
                 .sum() % 2 == 0;
 
-        List<Integer> numbers = integers.stream()
+        return integers.stream()
                 .filter(s2 -> isEven ^ (s2 % 2 == 0))
                 .collect(Collectors.toList());
-
-        System.out.println("Numbers from oddOrEven-method: " + numbers);
     }
 }
