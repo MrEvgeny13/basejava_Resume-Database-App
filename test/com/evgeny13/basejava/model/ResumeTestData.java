@@ -7,14 +7,14 @@ public class ResumeTestData {
     public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
         ResumeData resumeData = new ResumeData();
-        resume.addContact(ContactType.PHONE, resumeData.getPhone());
+        /*resume.addContact(ContactType.PHONE, resumeData.getPhone());
         resume.addContact(ContactType.SKYPE, resumeData.getSkype());
         resume.addSection(SectionType.OBJECTIVE, new TextSection(resumeData.getObjective()));
         resume.addSection(SectionType.PERSONAL, new TextSection(resumeData.getPersonal()));
         resume.addSection(SectionType.ACHIEVEMENT, new ListSection(resumeData.getAchievement()));
         resume.addSection(SectionType.QUALIFICATIONS, new ListSection(resumeData.getQualification()));
         resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(resumeData.getExperiences()));
-        resume.addSection(SectionType.EDUCATION, new OrganizationSection(resumeData.getEducation()));
+        resume.addSection(SectionType.EDUCATION, new OrganizationSection(resumeData.getEducation()));*/
         return resume;
     }
 
