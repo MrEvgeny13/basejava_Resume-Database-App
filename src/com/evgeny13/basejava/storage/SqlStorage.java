@@ -7,9 +7,10 @@ import com.evgeny13.basejava.util.SqlHelper;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class SqlStorage implements Storage {
@@ -29,25 +30,27 @@ public class SqlStorage implements Storage {
 
     @Override
     public void clear() {
-        sqlHelper.connectAndQuery(DELETE_RESUMES, ps -> {
-            ps.execute();
-            return null;
-        });
+        sqlHelper.execute(DELETE_RESUMES);
     }
 
     @Override
     public Resume get(String uuid) {
         LOG.info("Get " + uuid);
 
-        return sqlHelper.connectAndQuery(SELECT_RESUME, ps -> {
-            try (ResultSet result = sqlHelper.doStatement(ps, uuid).executeQuery()) {
-                if (result.next()) {
-                    return new Resume(uuid, result.getString("full_name"));
+        return sqlHelper.doTransaction(connection -> {
+            Resume resume;
+
+            try (PreparedStatement ps = connection.prepareStatement(SELECT_RESUME)) {
+                ps.setString(1, uuid);
+                ResultSet rs = ps.executeQuery();
+
+                if (!rs.next()) {
+                    throw new NotExistStorageException(uuid);
                 }
 
-                LOG.warning("Resume " + uuid + " not exist");
-                throw new NotExistStorageException(uuid);
+                resume = new Resume(uuid, rs.getString("full_name"));
             }
+            return resume;
         });
     }
 
@@ -55,9 +58,15 @@ public class SqlStorage implements Storage {
     public void update(Resume resume) {
         LOG.info("Update " + resume);
 
-        sqlHelper.connectAndQuery(UPDATE_RESUME, ps -> {
-            PreparedStatement preparedStatement = sqlHelper.doStatement(ps, resume.getFullName(), resume.getUuid());
-            executeStatement(preparedStatement, resume.getUuid());
+        sqlHelper.doTransaction(connection -> {
+            try (PreparedStatement ps = connection.prepareStatement(UPDATE_RESUME)) {
+                ps.setString(1, resume.getFullName());
+                ps.setString(2, resume.getUuid());
+
+                if (ps.executeUpdate() != 1) {
+                    throw new NotExistStorageException(resume.getUuid());
+                }
+            }
             return null;
         });
     }
@@ -66,56 +75,54 @@ public class SqlStorage implements Storage {
     public void save(Resume resume) {
         LOG.info("Save " + resume);
 
-        sqlHelper.connectAndQuery(INSERT_RESUME, ps -> {
-            try {
-                sqlHelper.doStatement(ps, resume.getUuid(), resume.getFullName()).execute();
-            } catch (SQLException e) {
-                sqlHelper.processException(resume, e);
-            }
-
-            return null;
-        });
+        sqlHelper.doTransaction(connection -> {
+                    try (PreparedStatement ps = connection.prepareStatement(INSERT_RESUME)) {
+                        ps.setString(1, resume.getUuid());
+                        ps.setString(2, resume.getFullName());
+                        ps.execute();
+                    }
+                    return null;
+                }
+        );
     }
 
     @Override
     public void delete(String uuid) {
         LOG.info("Delete " + uuid);
 
-        sqlHelper.connectAndQuery(DELETE_RESUME, ps -> {
-            PreparedStatement preparedStatement = sqlHelper.doStatement(ps, uuid);
-            executeStatement(preparedStatement, uuid);
+        sqlHelper.execute(DELETE_RESUME, ps -> {
+            ps.setString(1, uuid);
+
+            if (ps.executeUpdate() == 0) {
+                throw new NotExistStorageException(uuid);
+            }
             return null;
         });
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.connectAndQuery(SELECT_RESUMES, ps -> {
-            List<Resume> resumes = new ArrayList<>();
+        return sqlHelper.doTransaction(conn -> {
+            Map<String, Resume> resumes = new LinkedHashMap<>();
 
-            try (ResultSet result = ps.executeQuery()) {
-                while (result.next()) {
-                    resumes.add(new Resume(result.getString("uuid").trim(),
-                            result.getString("full_name")));
+            try (PreparedStatement ps = conn.prepareStatement(SELECT_RESUMES)) {
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    String uuid = rs.getString("uuid");
+                    resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
                 }
             }
 
-            return resumes;
+            return new ArrayList<>(resumes.values());
         });
     }
 
     @Override
     public int size() {
-        return sqlHelper.connectAndQuery(COUNT_RESUMES, ps -> {
-            try (ResultSet selectCount = ps.executeQuery()) {
-                return selectCount.next() ? selectCount.getInt("COUNT") : 0;
-            }
+        return sqlHelper.execute(COUNT_RESUMES, st -> {
+            ResultSet rs = st.executeQuery();
+            return rs.next() ? rs.getInt(1) : 0;
         });
-    }
-
-    private void executeStatement(PreparedStatement ps, String uuid) throws SQLException {
-        if (ps.executeUpdate() == 0) {
-            throw new NotExistStorageException(uuid);
-        }
     }
 }
