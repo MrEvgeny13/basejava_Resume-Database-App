@@ -47,15 +47,16 @@ public class SqlStorage implements Storage {
     @Override
     public void update(Resume resume) {
         LOG.info("Update " + resume);
-        String resumeUuid = resume.getUuid();
 
         sqlHelper.doTransaction(connection -> {
+            String uuid = resume.getUuid();
+
             try (PreparedStatement ps = connection.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid=?")) {
                 ps.setString(1, resume.getFullName());
-                ps.setString(2, resumeUuid);
+                ps.setString(2, uuid);
 
                 if (ps.executeUpdate() != 1) {
-                    throw new NotExistStorageException(resumeUuid);
+                    throw new NotExistStorageException(uuid);
                 }
             }
             return null;
