@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,11 +20,10 @@ public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
     protected final Storage storage;
 
-    private final Resume RESUME_1 = ResumeTestData.createResume("uuid1", "Иванов Иван");
-    private final Resume RESUME_2 = ResumeTestData.createResume("uuid2", "Петров Петр");
-    private final Resume RESUME_3 = ResumeTestData.createResume("uuid3", "Сидоров Михаил");
-    private final Resume RESUME_WITH_SAME_UUID = ResumeTestData.createResume("uuid1", "Иванов Иван");
-    private final Resume RESUME_WITH_SAME_NAME = ResumeTestData.createResume("uuid5", "Петров Петр");
+    private final Resume RESUME_1 = ResumeTestData.createResume(UUID.randomUUID().toString(), "Иванов Иван");
+    private final Resume RESUME_2 = ResumeTestData.createResume(UUID.randomUUID().toString(), "Петров Петр");
+    private final Resume RESUME_3 = ResumeTestData.createResume(UUID.randomUUID().toString(), "Сидоров Михаил");
+    private final Resume RESUME_WITH_SAME_NAME = ResumeTestData.createResume(UUID.randomUUID().toString(), "Петров Петр");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -68,8 +68,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void updateExistResumeTest() {
-        storage.update(RESUME_WITH_SAME_UUID);
-        assertEquals(RESUME_WITH_SAME_UUID, storage.get(RESUME_WITH_SAME_UUID.getUuid()));
+        storage.update(RESUME_1);
+        assertEquals(RESUME_1, storage.get(RESUME_1.getUuid()));
     }
 
     @Test(expected = NotExistStorageException.class)

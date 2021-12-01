@@ -101,7 +101,7 @@ public class SqlStorage implements Storage {
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {
-                    String uuid = rs.getString("uuid").replace(" ", "");
+                    String uuid = rs.getString("uuid");
                     resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
                 }
             }
