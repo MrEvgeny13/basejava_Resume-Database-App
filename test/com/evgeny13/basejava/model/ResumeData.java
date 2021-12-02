@@ -21,7 +21,7 @@ public class ResumeData {
                     "\"Java Enterprise\", \"Многомодульный maven.\nМногопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). " +
                     "Удаленное взаимодействие (JMS/AKKA).\"\nОрганизация онлайн стажировок и ведение проектов. Более 1000 выпускников. ",
             "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio,\n" +
-                    "DuoSecurity, Google Authenticator, Jira, Zendesk. ");
+                    "DuoSecurity, Google Authenticator, Jira, Zendesk.");
 
     private final List<String> qualification = Arrays.asList("JEE AS: " +
             "GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2 ", "Version control: Subversion, Git, Mercury, ClearCase, Perforce");

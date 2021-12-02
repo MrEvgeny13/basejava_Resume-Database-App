@@ -3,6 +3,6 @@ package com.evgeny13.basejava.sql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public interface SqlRunner<T> {
+public interface SqlExecutor<T> {
     T execute(PreparedStatement st) throws SQLException;
 }
