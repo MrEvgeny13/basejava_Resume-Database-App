@@ -7,9 +7,10 @@ public class ResumeTestData {
     public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
         ResumeData resumeData = new ResumeData();
-        /*
+
         resume.addContact(ContactType.PHONE, resumeData.getPhone());
         resume.addContact(ContactType.SKYPE, resumeData.getSkype());
+        /*
         resume.addSection(SectionType.OBJECTIVE, new TextSection(resumeData.getObjective()));
         resume.addSection(SectionType.PERSONAL, new TextSection(resumeData.getPersonal()));
         resume.addSection(SectionType.ACHIEVEMENT, new ListSection(resumeData.getAchievement()));
