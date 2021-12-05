@@ -1,4 +1,4 @@
-package com.evgeny13.basejava.front;
+package com.evgeny13.basejava.servlet;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
