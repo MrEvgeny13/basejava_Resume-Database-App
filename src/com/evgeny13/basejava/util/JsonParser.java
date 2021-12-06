@@ -1,9 +1,8 @@
 package com.evgeny13.basejava.util;
 
-import com.evgeny13.basejava.model.AbstractSection;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
+import com.evgeny13.basejava.model.AbstractSection;
 import java.io.Reader;
 import java.io.Writer;
 

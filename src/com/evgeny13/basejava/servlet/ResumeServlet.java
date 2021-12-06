@@ -27,20 +27,18 @@ public class ResumeServlet extends HttpServlet {
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException,
-            IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 //        response.setHeader("Content-Type", "text/html; charset=UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         Writer writer = response.getWriter();
-
         writer.write(
                 "<html>\n" +
                         "<head>\n" +
                         "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
                         "    <link rel=\"stylesheet\" href=\"css/style.css\">\n" +
-                        "    <title>Список резюме</title>\n" +
+                        "    <title>Список всех резюме</title>\n" +
                         "</head>\n" +
                         "<body>\n" +
                         "<section>\n" +
@@ -49,7 +47,6 @@ public class ResumeServlet extends HttpServlet {
                         "        <th>Имя</th>\n" +
                         "        <th>Email</th>\n" +
                         "    </tr>\n");
-
         for (Resume resume : storage.getAllSorted()) {
             writer.write(
                     "<tr>\n" +
@@ -57,7 +54,6 @@ public class ResumeServlet extends HttpServlet {
                             "     <td>" + resume.getContact(ContactType.MAIL) + "</td>\n" +
                             "</tr>\n");
         }
-
         writer.write("</table>\n" +
                 "</section>\n" +
                 "</body>\n" +
