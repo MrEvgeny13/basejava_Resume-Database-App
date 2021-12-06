@@ -1,4 +1,4 @@
-package com.evgeny13.basejava.servlet;
+package com.evgeny13.basejava.web;
 
 import com.evgeny13.basejava.Config;
 import com.evgeny13.basejava.model.ContactType;
@@ -14,7 +14,8 @@ import java.io.IOException;
 import java.io.Writer;
 
 public class ResumeServlet extends HttpServlet {
-    private Storage storage;
+
+    private Storage storage; // = Config.get().getStorage();
 
     @Override
     public void init(ServletConfig config) throws ServletException {

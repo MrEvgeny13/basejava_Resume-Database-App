@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>resumeServlet</servlet-name>
-        <servlet-class>com.evgeny13.basejava.servlet.ResumeServlet</servlet-class>
+        <servlet-class>com.evgeny13.basejava.web.ResumeServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>resumeServlet</servlet-name>
