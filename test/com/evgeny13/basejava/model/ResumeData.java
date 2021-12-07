@@ -34,8 +34,10 @@ public class ResumeData {
             DateUtil.of(1996, Month.JULY), "Аспирантура", "(программист С, С++)"),
             new Organization.Position(DateUtil.of(1987, Month.SEPTEMBER),
                     DateUtil.of(1993, Month.JULY), "Инженер", "(программист Fortran, C)"));
-    private final List<Organization> organizations = Arrays.asList(javaOnlineProjects);
-    private final List<Organization> education = Arrays.asList(university);
+    private final Organization experienceWithNull = new Organization("МГУ", "https://www.msu.ru/", new Organization.Position(DateUtil.of(2000, Month.JANUARY),
+            DateUtil.of(2000, Month.FEBRUARY), "Студент", "Просто студент"));
+    private final List<Organization> experiences = Arrays.asList(javaOnlineProjects);
+    private final List<Organization> education = Arrays.asList(university, experienceWithNull);
 
     public String getFullName() {
         return fullName;
@@ -66,7 +68,7 @@ public class ResumeData {
     }
 
     public List<Organization> getExperiences() {
-        return organizations;
+        return experiences;
     }
 
     public List<Organization> getEducation() {

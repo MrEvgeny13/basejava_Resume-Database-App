@@ -8,14 +8,14 @@ public class ResumeTestData {
         Resume resume = new Resume(uuid, fullName);
         ResumeData resumeData = new ResumeData();
 
-        resume.addContact(ContactType.PHONE, resumeData.getPhone());
-        resume.addContact(ContactType.SKYPE, resumeData.getSkype());
-        resume.addSection(SectionType.OBJECTIVE, new TextSection(resumeData.getObjective()));
-        resume.addSection(SectionType.PERSONAL, new TextSection(resumeData.getPersonal()));
-        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(resumeData.getAchievement()));
-        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(resumeData.getQualification()));
-        resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(resumeData.getExperiences()));
-        resume.addSection(SectionType.EDUCATION, new OrganizationSection(resumeData.getEducation()));
+        resume.setContact(ContactType.PHONE, resumeData.getPhone());
+        resume.setContact(ContactType.SKYPE, resumeData.getSkype());
+        resume.setSection(SectionType.OBJECTIVE, new TextSection(resumeData.getObjective()));
+        resume.setSection(SectionType.PERSONAL, new TextSection(resumeData.getPersonal()));
+        resume.setSection(SectionType.ACHIEVEMENT, new ListSection(resumeData.getAchievement()));
+        resume.setSection(SectionType.QUALIFICATIONS, new ListSection(resumeData.getQualification()));
+        resume.setSection(SectionType.EXPERIENCE, new OrganizationSection(resumeData.getExperiences()));
+        resume.setSection(SectionType.EDUCATION, new OrganizationSection(resumeData.getEducation()));
         return resume;
     }
 
@@ -34,14 +34,15 @@ public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume = createResume("uuid4", "Кислин Григорий");
         ResumeData resumeData = new ResumeData();
-        resume.addContact(ContactType.PHONE, resumeData.getPhone());
-        resume.addContact(ContactType.SKYPE, resumeData.getSkype());
-        resume.addSection(SectionType.OBJECTIVE, new TextSection(resumeData.getObjective()));
-        resume.addSection(SectionType.PERSONAL, new TextSection(resumeData.getPersonal()));
-        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(resumeData.getAchievement()));
-        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(resumeData.getQualification()));
-        resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(resumeData.getExperiences()));
-        resume.addSection(SectionType.EDUCATION, new OrganizationSection(resumeData.getEducation()));
+
+        resume.setContact(ContactType.PHONE, resumeData.getPhone());
+        resume.setContact(ContactType.SKYPE, resumeData.getSkype());
+        resume.setSection(SectionType.OBJECTIVE, new TextSection(resumeData.getObjective()));
+        resume.setSection(SectionType.PERSONAL, new TextSection(resumeData.getPersonal()));
+        resume.setSection(SectionType.ACHIEVEMENT, new ListSection(resumeData.getAchievement()));
+        resume.setSection(SectionType.QUALIFICATIONS, new ListSection(resumeData.getQualification()));
+        resume.setSection(SectionType.EXPERIENCE, new OrganizationSection(resumeData.getExperiences()));
+        resume.setSection(SectionType.EDUCATION, new OrganizationSection(resumeData.getEducation()));
         System.out.println(resume.getFullName());
         printContacts(resume.getContacts());
         printSections(resume.getSections());
