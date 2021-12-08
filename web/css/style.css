@@ -20,6 +20,10 @@ footer {
     text-align: center;
 }
 
+table, th, td {
+    border: 1px solid black;
+}
+
 dl {
     background: none repeat scroll 0 0 #FAFAFA;
     margin: 8px 0;

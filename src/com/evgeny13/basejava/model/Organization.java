@@ -7,20 +7,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static com.evgeny13.basejava.util.DateUtil.NOW;
-import static com.evgeny13.basejava.util.DateUtil.of;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
     public static final Organization EMPTY = new Organization("", "", Position.EMPTY);
-
     private Link homePage;
     private List<Position> positions = new ArrayList<>();
 
@@ -65,7 +60,6 @@ public class Organization implements Serializable {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
         public static final Position EMPTY = new Position();
-
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
@@ -74,14 +68,6 @@ public class Organization implements Serializable {
         private String description;
 
         public Position() {
-        }
-
-        public Position(int startYear, Month startMonth, String title, String description) {
-            this(of(startYear, startMonth), NOW, title, description);
-        }
-
-        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
-            this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
         public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
@@ -128,7 +114,8 @@ public class Organization implements Serializable {
 
         @Override
         public String toString() {
-            return "Position(" + startDate + ',' + endDate + ',' + title + ',' + description + ')';
+            return "\n" + startDate + " " + endDate + "\n"
+                    + title + " " + description;
         }
     }
 }

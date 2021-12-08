@@ -18,13 +18,14 @@ public class ResumeData {
             "по Java Web и Enterprise технологиям";
 
     private final List<String> achievement = Arrays.asList("С 2013 года: разработка проектов \"Разработка Web приложения\"," +
-                    "\"Java Enterprise\", \"Многомодульный maven.\nМногопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). " +
-                    "Удаленное взаимодействие (JMS/AKKA).\"\nОрганизация онлайн стажировок и ведение проектов. Более 1000 выпускников. ",
-            "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio,\n" +
-                    "DuoSecurity, Google Authenticator, Jira, Zendesk.");
+                    "\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). " +
+                    "Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.",
+            "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, " +
+                    "DuoSecurity, Google Authenticator, Jira, Zendesk. ");
 
     private final List<String> qualification = Arrays.asList("JEE AS: " +
-            "GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2 ", "Version control: Subversion, Git, Mercury, ClearCase, Perforce");
+                    "GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
+            "Version control: Subversion, Git, Mercury, ClearCase, Perforce");
 
     private final Organization javaOnlineProjects = new Organization("Java Online Projects", "http://javaops.ru/",
             new Organization.Position(DateUtil.of(2013, Month.OCTOBER), LocalDate.now(), "Автор проекта",

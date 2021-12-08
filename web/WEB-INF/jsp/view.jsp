@@ -14,81 +14,53 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h1>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></h1>
-    <p>
-        <c:forEach var="contactEntry" items="${resume.contacts}">
-            <jsp:useBean id="contactEntry"
-                         type="java.util.Map.Entry<com.evgeny13.basejava.model.ContactType, java.lang.String>"/>
-                <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
-        </c:forEach>
-    <p>
-    <hr>
-    <table cellpadding="2">
-        <c:forEach var="sectionEntry" items="${resume.sections}">
-            <jsp:useBean id="sectionEntry"
-                         type="java.util.Map.Entry<com.evgeny13.basejava.model.SectionType, com.evgeny13.basejava.model.AbstractSection>"/>
-            <c:set var="type" value="${sectionEntry.key}"/>
-            <c:set var="section" value="${sectionEntry.value}"/>
-            <jsp:useBean id="section" type="com.evgeny13.basejava.model.AbstractSection"/>
-            <tr>
-                <td colspan="2"><h2><a name="type.name">${type.title}</a></h2></td>
-            </tr>
-            <c:choose>
-                <c:when test="${type=='OBJECTIVE'}">
-                    <tr>
-                        <td colspan="2">
-                            <h3><%=((TextSection) section).getContent()%>
-                            </h3>
-                        </td>
-                    </tr>
-                </c:when>
-                <c:when test="${type=='PERSONAL'}">
-                    <tr>
-                        <td colspan="2">
-                            <%=((TextSection) section).getContent()%>
-                        </td>
-                    </tr>
-                </c:when>
-                <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
-                    <tr>
-                        <td colspan="2">
-                            <ul>
-                                <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
-                                    <li>${item}</li>
-                                </c:forEach>
-                            </ul>
-                        </td>
-                    </tr>
-                </c:when>
-                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
-                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
-                        <tr>
-                            <td colspan="2">
-                                <c:choose>
-                                    <c:when test="${empty org.homePage.url}">
-                                        <h3>${org.homePage.name}</h3>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                        </tr>
-                        <c:forEach var="position" items="${org.positions}">
-                            <jsp:useBean id="position" type="com.evgeny13.basejava.model.Organization.Position"/>
-                            <tr>
-                                <td width="15%" style="vertical-align: top"><%=HtmlUtil.formatDates(position)%>
-                                </td>
-                                <td><b>${position.title}</b><br>${position.description}</td>
-                            </tr>
-                        </c:forEach>
+    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></h2>
+
+    <c:forEach var="contactEntry" items="${resume.contacts}">
+        <jsp:useBean id="contactEntry"
+                     type="java.util.Map.Entry<com.evgeny13.basejava.model.ContactType, java.lang.String>"/>
+        <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+    </c:forEach>
+
+    <c:forEach var="sectionEntry" items="${resume.sections}">
+        <jsp:useBean id="sectionEntry"
+                     type="java.util.Map.Entry<com.evgeny13.basejava.model.SectionType, com.evgeny13.basejava.model.AbstractSection>"/>
+
+        <c:set var="type" value="${sectionEntry.key}"/>
+        <h3>
+            <%=sectionEntry.getKey().getTitle()%>
+        </h3>
+        <c:set var="sectionValue" value="${sectionEntry.value}"/>
+        <jsp:useBean id="section" type="com.evgeny13.basejava.model.AbstractSection"/>
+        <c:choose>
+            <c:when test="${sectionType=='OBJECTIVE' || sectionType=='PERSONAL'}">
+                <%=((TextSection) section).getContent()%>
+            </c:when>
+            <c:when test="${sectionType=='QUALIFICATIONS' || sectionType=='ACHIEVEMENT'}">
+                <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
+                    <li>${item}</li>
+                </c:forEach>
+            </c:when>
+            <c:when test="${sectionType=='EXPERIENCE' || sectionType=='EDUCATION'}">
+                <c:forEach var="experience" items="<%=((OrganizationSection) section).getOrganizations()%>">
+
+                    <c:forEach var="position" items="${experience.positions}">
+                        <jsp:useBean id="position" type="com.evgeny13.basejava.model.Organization.Position"/>
+                        <div style="margin-left: 15px">
+                            <h4>
+                                <li>${experience.employerName}</li>
+                            </h4>
+                            <div style="margin-left: 15px">
+                                <p>Период с: ${position.startDate} по: ${position.finishDate}</p>
+                                <strong>Должность: </strong>${position.position}<br>
+                                <strong>Обязанности: </strong>${position.description}
+                            </div>
+                        </div>
                     </c:forEach>
-                </c:when>
-            </c:choose>
-        </c:forEach>
-    </table>
-    <br/>
-    <button onclick="window.history.back()">ОК</button>
+                </c:forEach>
+            </c:when>
+        </c:choose>
+    </c:forEach>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>

@@ -64,6 +64,8 @@ public class DataStreamSerializer implements StreamSerializer {
                             });
                         });
                         break;
+                    default:
+                        break;
                 }
             });
         }
