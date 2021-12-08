@@ -39,6 +39,13 @@ public class Organization implements Serializable {
         return positions;
     }
 
+    public Organization(String organization, String url, LocalDate startDate, LocalDate endDate, String title, String description) {
+        Objects.requireNonNull(organization, "organization must not be null");
+        homePage = new Link(organization, url);
+        Position period = new Position(startDate, endDate, title, description);
+        positions.add(period);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

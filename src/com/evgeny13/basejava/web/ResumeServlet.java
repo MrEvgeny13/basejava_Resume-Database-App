@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
@@ -30,7 +29,9 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
+
         final boolean isNewResume = (uuid == null || uuid.length() == 0);
+
         Resume resume;
 
         if (isNewResume) {
@@ -40,13 +41,13 @@ public class ResumeServlet extends HttpServlet {
             resume.setFullName(fullName);
         }
 
-        for (ContactType type : ContactType.values()) {
-            String data = request.getParameter(type.name());
+        for (ContactType contactType : ContactType.values()) {
+            String data = request.getParameter(contactType.name());
 
-            if (data != null && data.trim().length() != 0) {
-                resume.setContact(type, data);
+            if (HtmlUtil.isEmpty(data)) {
+                resume.getContacts().remove(contactType);
             } else {
-                resume.getContacts().remove(type);
+                resume.setContact(contactType, data);
             }
         }
 
@@ -54,7 +55,9 @@ public class ResumeServlet extends HttpServlet {
             String content = request.getParameter(sectionType.name());
             String[] values = request.getParameterValues(sectionType.name());
 
-            if (content != null && content.trim().length() != 0) {
+            if (HtmlUtil.isEmpty(content) && values.length < 2) {
+                resume.getSections().remove(sectionType);
+            } else {
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
@@ -62,8 +65,7 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        List<String> list = Arrays.asList(content.split("\n"));
-                        resume.setSection(sectionType, new ListSection(list));
+                        resume.setSection(sectionType, new ListSection(content.split("\\n")));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
@@ -94,8 +96,6 @@ public class ResumeServlet extends HttpServlet {
                         resume.setSection(sectionType, new OrganizationSection(orgs));
                         break;
                 }
-            } else if (values.length < 2) {
-                resume.getSections().remove(sectionType);
             }
         }
 
@@ -112,13 +112,13 @@ public class ResumeServlet extends HttpServlet {
         String uuid = request.getParameter("uuid");
         String action = request.getParameter("action");
 
-        Resume resume;
-
         if (action == null) {
             request.setAttribute("resumes", storage.getAllSorted());
             request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
             return;
         }
+
+        Resume resume;
 
         switch (action) {
             case "delete":
@@ -134,10 +134,10 @@ public class ResumeServlet extends HttpServlet {
             case "edit":
                 resume = storage.get(uuid);
 
-                for (SectionType type : SectionType.values()) {
-                    AbstractSection section = resume.getSections().get(type);
+                for (SectionType sectionType : SectionType.values()) {
+                    AbstractSection section = resume.getSection(sectionType);
 
-                    switch (type) {
+                    switch (sectionType) {
                         case OBJECTIVE:
                         case PERSONAL:
                             if (section == null) {
@@ -159,8 +159,8 @@ public class ResumeServlet extends HttpServlet {
                             if (orgSection != null) {
                                 for (Organization org : orgSection.getOrganizations()) {
                                     List<Organization.Position> emptyFirstPositions = new ArrayList<>();
-                                    emptyFirstPositions.addAll(org.getPositions());
                                     emptyFirstPositions.add(Organization.Position.EMPTY);
+                                    emptyFirstPositions.addAll(org.getPositions());
                                     emptyFirstOrganizations.add(new Organization(org.getHomePage(), emptyFirstPositions));
                                 }
                             }
@@ -169,7 +169,7 @@ public class ResumeServlet extends HttpServlet {
                             break;
                     }
 
-                    resume.setSection(type, section);
+                    resume.setSection(sectionType, section);
                 }
                 break;
             default:
