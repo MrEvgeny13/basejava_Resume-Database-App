@@ -2,8 +2,6 @@
 <%@ page import="com.evgeny13.basejava.model.ListSection" %>
 <%@ page import="com.evgeny13.basejava.model.OrganizationSection" %>
 <%@ page import="com.evgeny13.basejava.util.HtmlUtil" %>
-<%@ page import="com.evgeny13.basejava.model.Organization" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -72,15 +70,15 @@
                                 </c:choose>
                             </td>
                         </tr>
-                            <c:forEach var="position" items="${org.positions}">
-                                <jsp:useBean id="position" type="com.evgeny13.basejava.model.Organization.Position"/>
-                                <tr>
-                                    <td width="15%" style="vertical-align: top"><%=HtmlUtil.formatDates(position)%>
-                                    </td>
-                                    <td><b>${position.title}</b><br>${position.description}</td>
-                                </tr>
-                            </c:forEach>
+                        <c:forEach var="position" items="${org.positions}">
+                            <jsp:useBean id="position" type="com.evgeny13.basejava.model.Organization.Position"/>
+                            <tr>
+                                <td width="15%" style="vertical-align: top"><%=HtmlUtil.formatDates(position)%>
+                                </td>
+                                <td><b>${position.title}</b><br>${position.description}</td>
+                            </tr>
                         </c:forEach>
+                    </c:forEach>
                 </c:when>
             </c:choose>
         </c:forEach>
