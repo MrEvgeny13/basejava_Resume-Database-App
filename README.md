@@ -1,6 +1,6 @@
 Java Enterprise Online Project (Resume Database)
 ===============================
-There are various ways to implement resume storage:
+Resume Database App in which resumes can be stored in various forms:
 * In a sorted and unsorted array;
 * In Collections (List, Map);
 * In the file system:
