@@ -55,7 +55,6 @@
                             <dt>Название учереждения:</dt>
                             <dd><input type="text" name='${type}' size=100 pattern="[A-Za-zА-Яа-яЁё]{1,20}"
                                        title="Please enter your organization name up to 20 characters"
-                                       required="required"
                                        value="${org.homePage.name}"></dd>
                         </dl>
                         <dl>
@@ -88,7 +87,6 @@
                                     <dd><input type="text" name='${type}${counter.index}title' size=75
                                                pattern="[A-Za-zА-Яа-яЁё]{1,20}"
                                                title="Please enter your position up to 20 characters"
-                                               required="required"
                                                value="${pos.title}">
                                 </dl>
                                 <dl>
