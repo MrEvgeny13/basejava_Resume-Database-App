@@ -9,55 +9,47 @@ import java.util.List;
  * List based storage for Resumes
  */
 public class ListStorage extends AbstractStorage<Integer> {
-    private List<Resume> list = new ArrayList<>();
 
-    @Override
-    protected Integer getSearchKey(String uuid) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUuid().equals(uuid)) {
+    private List<Resume> storage = new ArrayList<>();
+
+    public void clear() {
+        storage.clear();
+    }
+
+    protected void updateResume(Resume r, Integer index) {
+        storage.set(index, r);
+    }
+
+    protected void saveResume(Resume r, Integer index) {
+        storage.add(r);
+    }
+
+    protected Resume getResume(Integer index) {
+        return storage.get(index);
+    }
+
+    protected void deleteResume(Integer index) {
+        storage.remove(index.intValue());
+    }
+
+    public List<Resume> getAll() {
+        return new ArrayList<>(storage);
+    }
+
+    public int size() {
+        return storage.size();
+    }
+
+    protected Integer searchKey(String uuid) {
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
                 return i;
             }
         }
         return null;
     }
 
-    @Override
     protected boolean isExist(Integer searchKey) {
         return searchKey != null;
-    }
-
-    @Override
-    protected void doUpdate(Resume r, Integer searchKey) {
-        list.set(searchKey, r);
-    }
-
-    @Override
-    protected void doSave(Resume r, Integer searchKey) {
-        list.add(r);
-    }
-
-    @Override
-    protected Resume doGet(Integer searchKey) {
-        return list.get(searchKey);
-    }
-
-    @Override
-    protected void doDelete(Integer searchKey) {
-        list.remove((searchKey).intValue());
-    }
-
-    @Override
-    public void clear() {
-        list.clear();
-    }
-
-    @Override
-    public List<Resume> doCopyAll() {
-        return new ArrayList<>(list);
-    }
-
-    @Override
-    public int size() {
-        return list.size();
     }
 }

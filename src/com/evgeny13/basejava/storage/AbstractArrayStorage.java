@@ -10,63 +10,54 @@ import java.util.List;
  * Array based storage for Resumes
  */
 public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
-    protected static final int STORAGE_LIMIT = 10_000;
+    protected static final int STORAGE_LIMIT = 10000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
+
+    protected void saveResume(Resume r, Integer index) {
+        if (size >= STORAGE_LIMIT) {
+            throw new StorageException("Storage overflow", r.getUuid());
+        }
+        saveToArray(r, index);
+        size++;
+    }
+
+    protected abstract void saveToArray(Resume r, int index);
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    @Override
-    protected void doUpdate(Resume r, Integer index) {
+    protected void updateResume(Resume r, Integer index) {
         storage[index] = r;
     }
 
-    @Override
-    protected void doSave(Resume r, Integer index) {
-        if (size == STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", r.getUuid());
-        }
-
-        insertElement(r, index);
-        size++;
-    }
-
-    @Override
-    public Resume doGet(Integer index) {
-        return storage[index];
-    }
-
-    @Override
-    public void doDelete(Integer index) {
-        fillDeletedElement(index);
-        storage[size - 1] = null;
-        size--;
-    }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    @Override
-    public List<Resume> doCopyAll() {
-        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
+    public List<Resume> getAll() {
+        Resume[] copyArray = Arrays.copyOf(storage, size);
+        return Arrays.asList(copyArray);
     }
 
     public int size() {
         return size;
     }
 
-    @Override
-    public boolean isExist(Integer index) {
-        return index >= 0;
+    protected Resume getResume(Integer index) {
+        return storage[index];
     }
 
-    protected abstract Integer getSearchKey(String uuid);
+    protected void deleteResume(Integer index) {
+        fillDeletedElement(index);
+        storage[size - 1] = null;
+        size--;
+    }
+
+    protected boolean isExist(Integer index) {
+        return index > -1;
+    }
 
     protected abstract void fillDeletedElement(int index);
 
-    protected abstract void insertElement(Resume r, int index);
+    protected abstract Integer searchKey(String uuid);
 }

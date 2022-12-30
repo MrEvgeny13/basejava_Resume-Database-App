@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class SqlHelper {
-    private final ConnectionFactory connectionFactory;
+    public final ConnectionFactory connectionFactory;
 
     public SqlHelper(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;

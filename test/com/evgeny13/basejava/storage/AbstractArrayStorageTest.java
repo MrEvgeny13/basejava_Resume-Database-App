@@ -2,24 +2,25 @@ package com.evgeny13.basejava.storage;
 
 import com.evgeny13.basejava.exception.StorageException;
 import com.evgeny13.basejava.model.Resume;
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.fail;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    public AbstractArrayStorageTest(Storage storage) {
         super(storage);
     }
 
     @Test(expected = StorageException.class)
-    public void saveOverflow() throws Exception {
+    public void storageOverflow() throws Exception {
         try {
             for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume("Name" + i));
+                storage.save(new Resume("name"));
             }
         } catch (StorageException e) {
-            Assert.fail("Premature array overflow");
+            fail("overflow happened ahead of time");
         }
-        storage.save(new Resume("Overflow"));
+        storage.save(new Resume("name"));
     }
 }

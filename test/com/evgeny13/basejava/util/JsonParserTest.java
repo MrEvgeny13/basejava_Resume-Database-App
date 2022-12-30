@@ -1,14 +1,15 @@
 package com.evgeny13.basejava.util;
 
-import com.evgeny13.basejava.model.AbstractSection;
 import com.evgeny13.basejava.model.Resume;
+import com.evgeny13.basejava.model.Section;
 import com.evgeny13.basejava.model.TextSection;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.evgeny13.basejava.storage.AbstractStorageTest.R1;
+import static com.evgeny13.basejava.model.TestData.R1;
 
 public class JsonParserTest {
+
     @Test
     public void testResume() throws Exception {
         String json = JsonParser.write(R1);
@@ -19,10 +20,10 @@ public class JsonParserTest {
 
     @Test
     public void write() throws Exception {
-        AbstractSection section1 = new TextSection("Objective1");
-        String json = JsonParser.write(section1, AbstractSection.class);
+        Section section1 = new TextSection("Objective1");
+        String json = JsonParser.write(section1, Section.class);
         System.out.println(json);
-        AbstractSection section2 = JsonParser.read(json, AbstractSection.class);
+        Section section2 = JsonParser.read(json, Section.class);
         Assert.assertEquals(section1, section2);
     }
 }

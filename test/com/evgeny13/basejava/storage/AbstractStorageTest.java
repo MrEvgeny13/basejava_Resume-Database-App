@@ -9,33 +9,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
+import static com.evgeny13.basejava.model.TestData.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
-    protected final Storage storage;
+    protected Storage storage;
 
-    public static final String UUID_1 = UUID.randomUUID().toString();
-    public static final String UUID_2 = UUID.randomUUID().toString();
-    public static final String UUID_3 = UUID.randomUUID().toString();
-    public static final String UUID_4 = UUID.randomUUID().toString();
 
-    public static final Resume R1;
-    public static final Resume R2;
-    public static final Resume R3;
-    public static final Resume R4;
-
-    static {
-        R1 = new Resume(UUID_1, "Name1");
-        R2 = new Resume(UUID_2, "Name2");
-        R3 = new Resume(UUID_3, "Name3");
-        R4 = new Resume(UUID_4, "Name4");
-    }
-
-    public AbstractStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -53,84 +38,64 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void clear() {
+    public void clear() throws Exception {
         storage.clear();
         assertEquals(0, storage.size());
     }
 
     @Test
     public void update() throws Exception {
-        Resume newResume = new Resume(UUID_1, "New Name");
-        newResume.setContact(ContactType.MAIL, "mail1@google.com");
-        newResume.setContact(ContactType.SKYPE, "NewSkype");
-        newResume.setContact(ContactType.MOBILE, "+7 921 222-22-22");
-        storage.update(newResume);
-        assertTrue(newResume.equals(storage.get(UUID_1)));
+        Resume updateResume = new Resume(UUID_1, "Name1");
+        updateResume.setContact(ContactType.EMAIL, "newMail1@ya.ru");
+        updateResume.setContact(ContactType.PHONE_NUMBER, "777777");
+        updateResume.setContact(ContactType.SKYPE, "newSkype");
+        storage.update(updateResume);
+        assertEquals(updateResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() throws Exception {
-        storage.get("dummy");
+        storage.get("not exist");
     }
 
     @Test
     public void getAllSorted() throws Exception {
-        List<Resume> list = storage.getAllSorted();
-        assertEquals(3, list.size());
-        List<Resume> sortedResumes = Arrays.asList(R1, R2, R3);
-        Collections.sort(sortedResumes);
-        assertEquals(sortedResumes, list);
+        List<Resume> resumes = storage.getAllSorted();
+        List<Resume> expected = Arrays.asList(R1, R2, R3);
+        assertEquals(expected, resumes);
     }
 
     @Test
     public void save() throws Exception {
         storage.save(R4);
-        assertSize(4);
-        assertGet(R4);
+        assertEquals(4, storage.size());
+        assertEquals(R4, storage.get(UUID_4));
     }
 
     @Test(expected = ExistStorageException.class)
     public void saveExist() throws Exception {
-        storage.save(R1);
+        storage.save(new Resume(UUID_1, "Name1"));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
-        storage.delete(UUID_1);
-        assertSize(2);
-        storage.get(UUID_1);
+        storage.delete(UUID_3);
+        assertEquals(2, storage.size());
+        storage.get(UUID_3);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() throws Exception {
-        storage.delete("dummy");
+        storage.delete("not exist");
     }
 
     @Test
     public void get() throws Exception {
-        assertGet(R1);
-        assertGet(R2);
-        assertGet(R3);
+        assertEquals(R1, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() throws Exception {
-        storage.get("dummy");
-    }
-
-    @Test
-    public void getAllTest() {
-        List<Resume> resumes = Arrays.asList(R1, R2, R3, R4);
-        resumes.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
-        storage.save(R4);
-        assertEquals(resumes, storage.getAllSorted());
-    }
-
-    private void assertGet(Resume r) {
-        assertEquals(r, storage.get(r.getUuid()));
-    }
-
-    private void assertSize(int size) {
-        assertEquals(size, storage.size());
+        storage.get("not exist");
     }
 }

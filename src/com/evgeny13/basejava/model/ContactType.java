@@ -1,19 +1,23 @@
 package com.evgeny13.basejava.model;
 
 public enum ContactType {
-    PHONE("Тел."),
-    MOBILE("Мобильный"),
-    HOME_PHONE("Домашний тел."),
+    PHONE_NUMBER("Тел.: "),
+
     SKYPE("Skype") {
         @Override
         public String toHtml0(String value) {
             return getTitle() + ": " + toLink("skype:" + value, value);
         }
     },
-    MAIL("Почта") {
+    EMAIL("Почта") {
         @Override
         public String toHtml0(String value) {
-            return getTitle() + ": " + toLink("mailto:" + value, value);
+            return getTitle() + ": " + toLink(value);
+        }
+
+        @Override
+        public String toLink(String value) {
+            return (value == null) ? "" : toLink("mailto:" + value, value);
         }
     },
     LINKEDIN("Профиль LinkedIn") {
@@ -34,14 +38,14 @@ public enum ContactType {
             return toLink(value);
         }
     },
-    HOME_PAGE("Домашняя страница") {
+    HOMEPAGE("Домашняя страница") {
         @Override
         public String toHtml0(String value) {
             return toLink(value);
         }
     };
 
-    private final String title;
+    private String title;
 
     ContactType(String title) {
         this.title = title;
@@ -64,6 +68,6 @@ public enum ContactType {
     }
 
     public static String toLink(String href, String title) {
-        return "<a href='" + href + "'>" + title + "</a>";
+        return "<a class=\"contact-link\" href='" + href + "'>" + title + "</a>";
     }
 }

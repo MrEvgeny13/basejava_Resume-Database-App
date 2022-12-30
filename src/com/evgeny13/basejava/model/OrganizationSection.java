@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OrganizationSection extends AbstractSection {
+public class OrganizationSection extends Section {
     private static final long serialVersionUID = 1L;
+
     private List<Organization> organizations;
 
     public OrganizationSection() {
@@ -27,25 +28,22 @@ public class OrganizationSection extends AbstractSection {
         return organizations;
     }
 
+    public int size() {
+        return organizations.size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         OrganizationSection that = (OrganizationSection) o;
-        return Objects.equals(organizations, that.organizations);
+
+        return organizations.equals(that.organizations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(organizations);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (Organization organization : organizations) {
-            builder.append(organization);
-        }
-        return builder.toString();
+        return organizations.hashCode();
     }
 }

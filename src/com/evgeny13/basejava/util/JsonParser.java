@@ -1,14 +1,17 @@
 package com.evgeny13.basejava.util;
 
+import com.evgeny13.basejava.model.Section;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.evgeny13.basejava.model.AbstractSection;
+
 import java.io.Reader;
 import java.io.Writer;
+import java.time.LocalDate;
 
 public class JsonParser {
     private static Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(AbstractSection.class, new JsonSectionAdapter())
+            .registerTypeAdapter(Section.class, new JsonSectionAdapter())
+            .registerTypeAdapter(LocalDate.class, new JsonLocalDateAdapter())
             .create();
 
     public static <T> T read(Reader reader, Class<T> clazz) {

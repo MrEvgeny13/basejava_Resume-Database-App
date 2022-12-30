@@ -1,25 +1,35 @@
-CREATE TABLE resume
+create table resume
 (
-    uuid      CHAR(36) PRIMARY KEY NOT NULL,
-    full_name TEXT                 NOT NULL
+    uuid      char(36) not null
+        primary key,
+    full_name text     not null
 );
 
-CREATE TABLE contact
-(
-    id          SERIAL,
-    resume_uuid CHAR(36) NOT NULL REFERENCES resume (uuid) ON DELETE CASCADE,
-    type        TEXT     NOT NULL,
-    value       TEXT     NOT NULL
-);
-CREATE UNIQUE INDEX contact_uuid_type_index
-    ON contact (resume_uuid, type);
+alter table resume
+    owner to postgres;
 
-CREATE TABLE section
+create table contact
 (
-    id          SERIAL PRIMARY KEY,
-    resume_uuid CHAR(36) NOT NULL REFERENCES resume (uuid) ON DELETE CASCADE,
-    type        TEXT     NOT NULL,
-    value       TEXT     NOT NULL
+    id          serial primary key,
+    type        text     not null,
+    value       text     not null,
+    resume_uuid char(36) not null
+        constraint contact_resume_uuid_fk
+            references resume
+            on update restrict on delete cascade
 );
-CREATE UNIQUE INDEX section_idx
-    ON section (resume_uuid, type);
+
+alter table contact
+    owner to postgres;
+create unique index contact_uuid_type_index
+    on contact (resume_uuid, type);
+
+create table section
+(
+    id          serial primary key,
+    type        text     not null,
+    value       text     not null,
+    resume_uuid char(36) not null references resume (uuid) on delete cascade
+);
+create unique index section_idx
+    on section (resume_uuid, type);

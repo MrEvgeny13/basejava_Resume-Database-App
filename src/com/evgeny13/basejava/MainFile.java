@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainFile {
+    static String delimeter = "";
     public static void main(String[] args) {
         String filePath = ".\\.gitignore";
 
@@ -29,20 +30,25 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        printDirectoryDeeply(dir, "");
+        MainFile.getAllFiles(dir,delimeter);
     }
 
-    public static void printDirectoryDeeply(File dir, String offset) {
-        File[] files = dir.listFiles();
-
-        if (files != null) {
-            for (File file : files) {
-                if (file.isFile()) {
-                    System.out.println(offset + "File: " + file.getName());
-                } else if (file.isDirectory()) {
-                    System.out.println(offset + "Directory: " + file.getName());
-                    printDirectoryDeeply(file, offset + " ");
+    public static void getAllFiles(File directory, String delimeter) {
+        if (!directory.exists()) {
+            System.out.println("Такого объекта файловой системы не существует");
+        } else if (directory.isFile()) {
+            System.out.println(MainFile.delimeter + "-" + directory.getName());
+        } else {
+            System.out.println(MainFile.delimeter + "-" + directory.getName());
+            File[] files = directory.listFiles();
+            if (files != null) {
+                MainFile.delimeter += "-";
+                for (File dirOrFile : files) {
+                    getAllFiles(dirOrFile, delimeter);
                 }
+                int startNum = MainFile.delimeter.length() - 1;
+                int finishNum = MainFile.delimeter.length();
+                MainFile.delimeter = MainFile.delimeter.substring(startNum, finishNum);
             }
         }
     }

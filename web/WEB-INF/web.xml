@@ -12,5 +12,4 @@
         <servlet-name>resumeServlet</servlet-name>
         <url-pattern>/resume</url-pattern>
     </servlet-mapping>
-
 </web-app>
