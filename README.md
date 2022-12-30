@@ -13,6 +13,6 @@ Java Enterprise Online Project (Resume Database)
 
 <h4>Application stack:</h4>
 
-Java 8, GitHub/Git, JUnit, Logging, XML, JSON, GSON, JAXB, JDBC, SQL, PostgreSQL, Transactions, Servlets, HTML, JSP, JSTL, Tomcat, Maven.
+Java 15, GitHub/Git, JUnit, Logging, XML, JSON, GSON, JAXB, JDBC, SQL, PostgreSQL, Transactions, Servlets, HTML, JSP, JSTL, Tomcat, Maven.
 
 <h4><a href="https://resumesappevgeny13.herokuapp.com/resume" target="_blank">Demo of the developed application</a></h4>
