@@ -62,7 +62,8 @@
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
                         <div class="section-wrapper">
                             <c:choose>
-                                <c:when test="${empty position.description}">
+                                <c:when test="${empty org.homePage.url}">
+                                    <div class="job-name">${org.homePage.name}</div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="job-name"><a class="contact-link"

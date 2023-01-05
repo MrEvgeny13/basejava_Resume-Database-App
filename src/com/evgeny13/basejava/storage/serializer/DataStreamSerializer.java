@@ -48,11 +48,11 @@ public class DataStreamSerializer implements StreamSerializer {
                             writeWithException(organization.getPositions(), dos, position -> {
                                 LocalDate startDate = position.getStartDate();
                                 writeLocalDate(dos, startDate);
-                                LocalDate finishDate = position.getFinishDate();
+                                LocalDate finishDate = position.getEndDate();
                                 writeLocalDate(dos, finishDate);
-                                String positionName = position.getPositionName();
+                                String positionName = position.getTitle();
                                 dos.writeUTF(positionName);
-                                String additionalInformation = position.getAdditionalInformation();
+                                String additionalInformation = position.getDescription();
                                 if (additionalInformation == null) {
                                     dos.writeUTF("null");
                                 } else {

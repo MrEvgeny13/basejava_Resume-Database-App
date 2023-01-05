@@ -22,7 +22,7 @@
     <div class="scrollable-panel">
         <div class="form-wrapper">
             <div class="section">ФИО</div>
-            <input class="field" type="text" name="fullName" size=55 placeholder="ФИО" value="${resume.fullName}"
+            <input class="field" type="text" name="fullName" size=55 placeholder="ФИО*" value="${resume.fullName}"
                    required>
 
             <div class="section">Контакты</div>
@@ -76,18 +76,16 @@
                                            placeholder="Начало, ММ/ГГГГ"
                                            size=10
                                            value="<%=DateUtil.format(pos.getStartDate())%>">
-                                    <input class="field date date-margin" name="${type}${counter.index}finishDate"
+                                    <input class="field date date-margin" name="${type}${counter.index}endDate"
                                            placeholder="Окончание, ММ/ГГГГ"
                                            size=10
-                                           value="<%=DateUtil.format(pos.getFinishDate())%>">
+                                           value="<%=DateUtil.format(pos.getEndDate())%>">
                                 </div>
 
                                 <input class="field" type="text" placeholder="Заголовок"
                                        name='${type}${counter.index}title' size=75
-                                       value="${pos.positionName}">
-                                <textarea class="field" placeholder="Описание"
-                                          name="${type}${counter.index}description">${pos.additionalInformation}</textarea>
-
+                                       value="${pos.title}">
+                                <textarea class="field" placeholder="Описание" name="${type}${counter.index}description">${pos.description}</textarea>
                             </c:forEach>
                         </c:forEach>
                     </c:when>
