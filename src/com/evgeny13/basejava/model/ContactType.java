@@ -1,7 +1,7 @@
 package com.evgeny13.basejava.model;
 
 public enum ContactType {
-    PHONE_NUMBER("Тел.: "),
+    PHONE_NUMBER("Тел."),
 
     SKYPE("Skype") {
         @Override
