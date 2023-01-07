@@ -16,6 +16,5 @@ Java Enterprise Online Project (Resume Database)
 Java 15, GitHub/Git, JUnit, Logging, XML, JSON, GSON, JAXB, JDBC, SQL, PostgreSQL, Servlets, HTML, JSP, JSTL, Tomcat.
 
 <h4>Screenshot of the main page:</h4>
-</br>
 
 ![alt text](https://github.com/MrEvgeny13/basejava_Resume-Database-App/blob/master/Main_Page.png?raw=true)
